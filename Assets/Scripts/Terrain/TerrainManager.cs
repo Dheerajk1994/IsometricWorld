@@ -100,27 +100,30 @@ public class TerrainManager : MonoBehaviour
     //PATH REQUESTS
     public List<Vector2> RequestPath(Vector2 currentPos, Vector2 destinationPos)
     {
-        Debug.Log("requestpath to " + destinationPos);
+        //Debug.Log("requestpath to " + destinationPos);
         Tuple<int, int> posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
-        Tuple<int, int> posEnd = terrainGenerator.GetTilePosAtPointer(Mathf.Clamp(destinationPos.x, 2, worldWidth - 2),
-                                                                      Mathf.Clamp(destinationPos.y, 2, worldHeight - 2));
+        Tuple<int, int> posEnd = terrainGenerator.GetTilePosAtPointer(destinationPos.x, destinationPos.y);
         List<Tuple<int, int>> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref posEnd);
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
     public List<Vector2> RequestPath(Vector2 currentPos, Tuple<int, int> endCellIndex)
     {
-        Debug.Log("requestpath to cell " + endCellIndex);
+        //Debug.Log("requestpath to cell " + endCellIndex);
         Tuple<int, int> posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
 
         List<Tuple<int, int>> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref endCellIndex);
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
-    //
-    public bool CanBeBuiltOn(ref Vector2 buildPos)
+    //HELPERS
+    public bool CanBeBuiltOn(in Tuple<int, int> cellIndex)
     {
-        return true;
+        return
+            cellIndex.Item2 * worldWidth + cellIndex.Item1 >= 0 &&
+            cellIndex.Item2 * worldWidth + cellIndex.Item1 < worldObjects.Length &&
+            worldObjects[cellIndex.Item2 * worldWidth + cellIndex.Item1] == null &&
+            tiles[cellIndex.Item2 * worldWidth + cellIndex.Item1].TerrainType != TerrainTypes.Water;
     }
 
     public void DisplayTileAtPosition(ref GameObject tile, Vector2 pos)
@@ -137,6 +140,7 @@ public class TerrainManager : MonoBehaviour
         terrainGenerator.PlaceTileInWorld(ref entity, arrayIndexPos.Item1, arrayIndexPos.Item2);
         entity.GetComponent<SpriteRenderer>().sprite = building.buildingSprite;
 
-        tiles[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2].IsTraversable = false;
+        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].IsTraversable = building.traversable;
+        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].TraversalDifficulty = building.traversalRate;
     }
 }

@@ -75,6 +75,7 @@ public static class PathFinder
             {
                 tiles[y * worldWidth + x] = new TileVal();
                 tiles[y * worldWidth + x].isWall = !worldTileTraversalData[y * worldWidth + x].IsTraversable;
+                tiles[y * worldWidth + x].traversalRate = worldTileTraversalData[y * worldWidth + x].TraversalDifficulty;
                 tiles[y * worldWidth + x].x = x;
                 tiles[y * worldWidth + x].y = y;
             }
@@ -168,7 +169,8 @@ public static class PathFinder
             openList.Add(tiles[indexToCheck]);
             tiles[indexToCheck].isInOpenList = true;
             tiles[indexToCheck].parentile = parent;
-            tiles[indexToCheck].g = parent.g + 1;
+            //TRAVERSAL RATE
+            tiles[indexToCheck].g = parent.g + tiles[indexToCheck].traversalRate;
             tiles[indexToCheck].h = HeurDistanceToEndGoal(ref indexToCheck, ref indexOfDestination);
             tiles[indexToCheck].UpdateF();
             if (tiles[indexToCheck] == tiles[indexOfDestination])
@@ -216,6 +218,7 @@ public class TileVal : IEquatable<TileVal>
     public bool isClosed;
     public bool isInOpenList;
     public bool isWall;
+    public float traversalRate;
     public float g;
     public float h;
     public float f;

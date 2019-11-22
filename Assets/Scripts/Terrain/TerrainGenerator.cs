@@ -89,11 +89,11 @@ public class TerrainGenerator
                 }
                 else if (terrainVal < 0.35f)
                 {
-                    tiles[worldHeight * y + x] = new Tile(TerrainTypes.Sand, null, true, 1);
+                    tiles[worldHeight * y + x] = new Tile(TerrainTypes.Sand, null, true, 5);
                 }
                 else
                 {
-                    tiles[worldHeight * y + x] = new Tile(TerrainTypes.Plains, null, true, 1);
+                    tiles[worldHeight * y + x] = new Tile(TerrainTypes.Plains, null, true, 5);
                 }
             }
         }

@@ -20,4 +20,6 @@ public class ConstructionObject : ScriptableObject
     public StaticEntityType constructionObjectID;
     public ResourceAndAmount[] constructionMaterials;
     public uint constructionTimeCost;
+    public bool traversable;
+    public float traversalRate;
 }

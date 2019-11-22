@@ -27,7 +27,7 @@ public class BuildTask : ComplexTask
         taskPrqQueue.Enqueue(new TimedTask(constructionObject.constructionTimeCost, mainTaskLocation,"Build " + constructionObject.buildingName));
 
 
-        Debug.Log("build task created");
+        //Debug.Log("build task created");
     }
 
     protected override void OnFinish()

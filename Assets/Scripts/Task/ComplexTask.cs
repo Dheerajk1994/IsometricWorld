@@ -7,7 +7,6 @@ public class ComplexTask : Task
 {
     protected Queue<Task> taskPrqQueue;
     protected Task currentTask;
-    protected bool isValid = false;
 
     public ComplexTask(string taskName, Tuple<int, int> taskLocation) : base(taskName)
     {
@@ -22,7 +21,7 @@ public class ComplexTask : Task
 
     public override void Execute(uint workAmount)
     {
-        if (isValid)
+        if (currentTask != null)
         {
             //NEEDS REVISION    
             if (currentTask.IsValidated())
@@ -42,37 +41,26 @@ public class ComplexTask : Task
 
     public override bool IsValidated()
     {
-        return isValid;
+        return true;
     }
     
     public override void Validate(uint workAmount)
     {
-        if(currentTask == null)
+        if (taskPrqQueue.Count > 0)
         {
-            if(taskPrqQueue.Count > 0)
-            {
-                currentTask = taskPrqQueue.Peek();
-                currentTask.TaskCompleted += PrereqCompleted;
-                currentTask.AssignTaskToEntity(this.Entity);
-                isValid = true;
-            }
-            else
-            {
-                OnFinish();
-            }
+            currentTask = taskPrqQueue.Peek();
+            currentTask.TaskCompleted += PrereqCompleted;
+            currentTask.AssignTaskToEntity(this.Entity);
+        }
+        else
+        {
+            OnFinish();
         }
     }
 
     protected virtual void PrereqCompleted()
     {
         taskPrqQueue.Dequeue();
-        if(taskPrqQueue.Count == 0)
-        {
-            OnFinish();
-        }
-        else
-        {
-            currentTask = taskPrqQueue.Peek();
-        }
+        currentTask = null;
     }
 }
