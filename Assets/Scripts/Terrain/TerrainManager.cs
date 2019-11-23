@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[RequireComponent(typeof(TerrainSpritesManager))]
 public class TerrainManager : MonoBehaviour
 {
     public static TerrainManager instance;
@@ -37,11 +37,13 @@ public class TerrainManager : MonoBehaviour
     public int WorldOriginX { get => worldOriginX; }
     public int WorldOriginY { get => worldOriginY;  }
 
-    private Tile[] tiles;
-    private Entity[] worldObjects;
+    private Tile[] tiles;               //array of tiles ie the terrain tiles    
+    private Entity[] worldEntities;     //array of entity objects
+    private GameObject[] worldObjects;  //array of entity game objects
 
 
     protected TerrainGenerator terrainGenerator;
+    private TerrainSpritesManager terrainSpritesManager;
 
     private void Awake()
     {
@@ -68,12 +70,15 @@ public class TerrainManager : MonoBehaviour
             WorldOriginY);
 
         tiles = new Tile[worldWidth * worldHeight];
-        worldObjects = new Entity[worldWidth * worldHeight];
+        worldEntities = new Entity[worldWidth * worldHeight];
+        worldObjects = new GameObject[worldWidth * worldHeight];
+
+        terrainSpritesManager = this.GetComponent<TerrainSpritesManager>();
 
         terrainGenerator.PopulateTerrainWithNoiseValues(ref tiles);
-        terrainGenerator.PopulateTerrainWithEntities(tiles, ref worldObjects);
+        terrainGenerator.PopulateTerrainWithEntities(tiles, ref worldEntities);
 
-        terrainGenerator.DrawWorld(tiles, worldObjects, tilePrefab, entitiesPrefab, tilesParent, gameEntitiesParent);
+        terrainGenerator.DrawWorld(tiles, worldEntities, tilePrefab, entitiesPrefab, tilesParent, gameEntitiesParent);
     }
 
     protected void Update()
@@ -121,8 +126,8 @@ public class TerrainManager : MonoBehaviour
     {
         return
             cellIndex.Item2 * worldWidth + cellIndex.Item1 >= 0 &&
-            cellIndex.Item2 * worldWidth + cellIndex.Item1 < worldObjects.Length &&
-            worldObjects[cellIndex.Item2 * worldWidth + cellIndex.Item1] == null &&
+            cellIndex.Item2 * worldWidth + cellIndex.Item1 < worldEntities.Length &&
+            worldEntities[cellIndex.Item2 * worldWidth + cellIndex.Item1] == null &&
             tiles[cellIndex.Item2 * worldWidth + cellIndex.Item1].TerrainType != TerrainTypes.Water;
     }
 
@@ -131,16 +136,32 @@ public class TerrainManager : MonoBehaviour
         terrainGenerator.PlaceTileInWorld(ref tile, pos);
     }
 
-    public void AddBuildingToWorld(ConstructionObject building, Tuple<int, int> arrayIndexPos)
+    public void AddBuildingToWorld(ConstructionObject constructionObj, Tuple<int, int> arrayIndexPos)
     {
-        worldObjects[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2] = new Entity(building.buildingName, building.constructionObjectID, arrayIndexPos, building.buildingSprite);
+        worldEntities[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1] = new Entity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
 
         GameObject entity = Instantiate(entitiesPrefab);
         entity.transform.SetParent(gameEntitiesParent);
         terrainGenerator.PlaceTileInWorld(ref entity, arrayIndexPos.Item1, arrayIndexPos.Item2);
-        entity.GetComponent<SpriteRenderer>().sprite = building.buildingSprite;
+        //entity.GetComponent<SpriteRenderer>().sprite = constructionObj.buildingSprite;
 
-        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].IsTraversable = building.traversable;
-        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].TraversalDifficulty = building.traversalRate;
+        worldObjects[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1] = entity;
+        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].IsTraversable = constructionObj.traversable;
+        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].TraversalDifficulty = constructionObj.traversalRate;
+
+        //NEEDS REVISION
+        if(constructionObj.constructionObjectID == StaticEntityType.Road)
+        {
+            terrainSpritesManager.UpdateRoadSprite(arrayIndexPos, worldWidth, worldHeight, ref entity, ref worldEntities, worldObjects);
+        }
+    }
+
+    public void RemoveBuildingFromWorld(Tuple <int, int> arrayIndexPos)
+    {
+        if(worldEntities[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2] != null)
+        {
+            worldEntities[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2] = null;
+            Destroy(worldObjects[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2].gameObject);
+        }
     }
 }

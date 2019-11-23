@@ -16,7 +16,7 @@ public class GameStateBuild : PointerIcon, IGameEventState
 
     public void Enter()
     {
-        Debug.Log("Entered build state");
+        //Debug.Log("Entered build state");
     }
 
     public void Execute()
@@ -38,7 +38,7 @@ public class GameStateBuild : PointerIcon, IGameEventState
         {
             TaskManager.instance.AddTask(new BuildTask(constructionObject, "build tent", buildCell));
         }
-        HasPlaced(true);
+        //HasPlaced(true);
     }
 
     protected override void OnRightClick()

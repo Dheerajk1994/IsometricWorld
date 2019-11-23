@@ -123,15 +123,15 @@ public class EntityMovement : MonoBehaviour
         MoveDirectionChange(moveDirection);
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        if(path != null)
-        {
-            foreach (Vector2 loc in path)
-            {
-                Gizmos.DrawSphere(loc, 0.2f);
-            }
-        }
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    if(path != null)
+    //    {
+    //        foreach (Vector2 loc in path)
+    //        {
+    //            Gizmos.DrawSphere(loc, 0.2f);
+    //        }
+    //    }
+    //}
 }

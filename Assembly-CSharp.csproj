@@ -82,6 +82,7 @@
      <Compile Include="Assets\Scripts\Terrain\TerrainGenerator.cs" />
      <Compile Include="Assets\Scripts\Terrain\TerrainManager.cs" />
      <Compile Include="Assets\Scripts\Terrain\TerrainNoise.cs" />
+     <Compile Include="Assets\Scripts\Terrain\TerrainSpritesManager.cs" />
      <Compile Include="Assets\Scripts\Terrain\Tile.cs" />
      <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
      <Compile Include="Assets\Scripts\UI\TestBuildScript.cs" />

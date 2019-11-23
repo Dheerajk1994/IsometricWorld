@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
 
     public void BuildingPlaced(bool val)
     {
-        Debug.Log("building has been placed");
         normalState = new GameStateNormal(tileHighLightSprite, mainCamera);
         gameEventStateMachine.ChangeState(normalState);
     }

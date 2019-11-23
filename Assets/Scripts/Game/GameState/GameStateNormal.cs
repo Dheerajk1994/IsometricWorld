@@ -8,7 +8,7 @@ public class GameStateNormal : PointerIcon, IGameEventState
 
     public void Enter()
     {
-        Debug.Log("Entered normal game state");
+        //Debug.Log("Entered normal game state");
     }
 
     public void Execute()
@@ -28,7 +28,7 @@ public class GameStateNormal : PointerIcon, IGameEventState
 
     protected override void OnLeftClick()
     {
-        Debug.Log("left mouse clicked during normal game state");
+        //Debug.Log("left mouse clicked during normal game state");
     }
 
     protected override void OnRightClick()
