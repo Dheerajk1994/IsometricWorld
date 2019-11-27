@@ -33,6 +33,7 @@ public class EntityTaskExecuter : MonoBehaviour
         {
             hasTask = true;
             currentTask.TaskCompleted += FinishTask;
+            currentTask.TaskFailed += TaskFailed;
             currentTask.AssignTaskToEntity(this.gameObject);
             ExecuteTask();
         }
@@ -46,6 +47,12 @@ public class EntityTaskExecuter : MonoBehaviour
     }
     public void FinishTask()
     {
+        hasTask = false;
+        currentTask = null;
+    }
+    public void TaskFailed(string reason)
+    {
+        Debug.Log("Current task failed: " + reason);
         hasTask = false;
         currentTask = null;
     }

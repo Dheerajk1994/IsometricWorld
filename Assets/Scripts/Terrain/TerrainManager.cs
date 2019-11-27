@@ -102,6 +102,11 @@ public class TerrainManager : MonoBehaviour
         return terrainGenerator.GetTilePos(tileIndex.Item1, tileIndex.Item2);
     }
 
+    public float GetDistanceBetween(in Vector2 pos1, in Tuple<int, int> pos2)
+    {
+        return (Vector3.Distance(pos1, terrainGenerator.GetTilePos(pos2.Item1, pos2.Item2)));
+    }
+
     //PATH REQUESTS
     public List<Vector2> RequestPath(Vector2 currentPos, Vector2 destinationPos)
     {
@@ -143,7 +148,6 @@ public class TerrainManager : MonoBehaviour
         GameObject entity = Instantiate(entitiesPrefab);
         entity.transform.SetParent(gameEntitiesParent);
         terrainGenerator.PlaceTileInWorld(ref entity, arrayIndexPos.Item1, arrayIndexPos.Item2);
-        //entity.GetComponent<SpriteRenderer>().sprite = constructionObj.buildingSprite;
 
         worldObjects[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1] = entity;
         tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].IsTraversable = constructionObj.traversable;
@@ -154,7 +158,17 @@ public class TerrainManager : MonoBehaviour
         {
             terrainSpritesManager.UpdateRoadSprite(arrayIndexPos, worldWidth, worldHeight, ref entity, ref worldEntities, worldObjects);
         }
+        else if(constructionObj.constructionObjectID == StaticEntityType.StorageArea)
+        {
+            ResourceManager.instance.AddResourceStorage(new ResourceStorage(arrayIndexPos));
+            entity.GetComponent<SpriteRenderer>().sprite = constructionObj.buildingSprite;
+        }
+        else
+        {
+            entity.GetComponent<SpriteRenderer>().sprite = constructionObj.buildingSprite;
+        }
     }
+
 
     public void RemoveBuildingFromWorld(Tuple <int, int> arrayIndexPos)
     {

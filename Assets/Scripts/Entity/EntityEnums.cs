@@ -15,6 +15,7 @@ public enum StaticEntityType
     Tree,
     Tent,
     House,
+    StorageArea,
     Road,
     Stone
 }

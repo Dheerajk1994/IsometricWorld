@@ -10,7 +10,7 @@ public class AnimationController : MonoBehaviour
 
     private void Start()
     {
-        GetComponentInParent<EntityMovement>().MoveDirectionChange += MoveDirectionChange;
+        GetComponentInParent<EntityMovement>().MoveDirectionChangHandler += MoveDirectionChange;
         spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 

@@ -36,5 +36,9 @@ public class BuildTask : ComplexTask
         TerrainManager.instance.AddBuildingToWorld(constructionObject, this.TaskLocation);
     }
 
+    protected override void OnFailure(string failureReason)
+    {
+        base.OnFailure(failureReason);
+    }
 
 }

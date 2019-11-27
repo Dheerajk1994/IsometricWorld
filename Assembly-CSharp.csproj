@@ -59,7 +59,8 @@
      <Compile Include="Assets\Scripts\AI\PathFinder.cs" />
      <Compile Include="Assets\Scripts\Entity\ES_Task.cs" />
      <Compile Include="Assets\Scripts\Entity\ES_Wander.cs" />
-     <Compile Include="Assets\Scripts\Entity\Entities.cs" />
+     <Compile Include="Assets\Scripts\Entity\Entity.cs" />
+     <Compile Include="Assets\Scripts\Entity\EntityEnums.cs" />
      <Compile Include="Assets\Scripts\Entity\EntityStateController.cs" />
      <Compile Include="Assets\Scripts\Entity\IEntityState.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager.cs" />
@@ -70,6 +71,9 @@
      <Compile Include="Assets\Scripts\Game\GameState\PointerIcon.cs" />
      <Compile Include="Assets\Scripts\Game\ResourceManager.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\ConstructionObject.cs" />
+     <Compile Include="Assets\Scripts\Scriptable Objects\Construction\Road.cs" />
+     <Compile Include="Assets\Scripts\Scriptable Objects\Construction\StorageBox.cs" />
+     <Compile Include="Assets\Scripts\Scriptable Objects\Construction\Tent.cs" />
      <Compile Include="Assets\Scripts\Storage\ResourceStorage.cs" />
      <Compile Include="Assets\Scripts\Task\BuildTask.cs" />
      <Compile Include="Assets\Scripts\Task\ComplexTask.cs" />
@@ -78,7 +82,6 @@
      <Compile Include="Assets\Scripts\Task\Task.cs" />
      <Compile Include="Assets\Scripts\Task\TaskManager.cs" />
      <Compile Include="Assets\Scripts\Task\TimedTask.cs" />
-     <Compile Include="Assets\Scripts\Terrain\Entity.cs" />
      <Compile Include="Assets\Scripts\Terrain\TerrainGenerator.cs" />
      <Compile Include="Assets\Scripts\Terrain\TerrainManager.cs" />
      <Compile Include="Assets\Scripts\Terrain\TerrainNoise.cs" />

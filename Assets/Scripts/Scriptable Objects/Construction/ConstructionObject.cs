@@ -12,8 +12,7 @@ public struct ResourceAndAmount
     public uint resourceAmount;
 }
 
-[CreateAssetMenu(fileName = "New Construction Object", menuName = "ScriptableObjects/Building")]
-public class ConstructionObject : ScriptableObject
+abstract public class ConstructionObject : ScriptableObject
 {
     public string buildingName;
     public Sprite buildingSprite;
@@ -22,4 +21,7 @@ public class ConstructionObject : ScriptableObject
     public uint constructionTimeCost;
     public bool traversable;
     public float traversalRate;
+
+    public abstract void FinishedBuilding();   
+
 }

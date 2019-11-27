@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f5efba878a4da64b92b6b885087d953, type: 3}
+  m_Script: {fileID: 11500000, guid: 9213fbf905a9ca741aa273a7761c5196, type: 3}
   m_Name: Tent
   m_EditorClassIdentifier: 
   buildingName: Tent
   buildingSprite: {fileID: 21300000, guid: 547ed3db566b1be4b8e6857bc530b0d2, type: 3}
-  constructionObjectID: 0
+  constructionObjectID: 2
   constructionMaterials:
-  - resourceId: 1
-    reorceAmnt: 10
-  constructionTimeCost: 0
+  - resourceId: 2
+    resourceAmount: 10
+  constructionTimeCost: 500
+  traversable: 0
+  traversalRate: 0

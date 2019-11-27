@@ -14,6 +14,7 @@ public abstract class Task
     public static TerrainManager terrainMngInstance { get; protected set; }
     
     public event Action TaskCompleted = delegate { };
+    public event Action<string> TaskFailed = delegate { };
 
     public Task(string taskName)
     {
@@ -28,7 +29,11 @@ public abstract class Task
     public abstract bool IsValidated();
     public abstract void Validate(uint workAmount);
     public abstract void Execute(uint workAmount);
-
+    protected virtual void OnFailure(string failureReason)
+    {
+        IsDone = false;
+        TaskFailed(failureReason);
+    }
     protected virtual void OnFinish()
     {
         IsDone = true;

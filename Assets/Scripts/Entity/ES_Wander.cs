@@ -22,7 +22,7 @@ public class ES_Wander : IEntityState
         this.moveAroundArea = moveAroundArea;
 
         entityMovement = entity.GetComponent<EntityMovement>();
-        entityMovement.DestinationReached += HasArrivedAtDestination;
+        entityMovement.DestinationReachedHandler += HasArrivedAtDestination;
     }
 
     //INTERFACE IMPLEMENTATION

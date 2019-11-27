@@ -116,7 +116,6 @@ public class TerrainSpritesManager : MonoBehaviour
 
     private void AddRoadSpriteToRoad(int roadDir, ref GameObject roadEntity)
     {
-        Debug.Log("addroadspritetoroad with case " + roadDir);
         GameObject newSprite = new GameObject("road sprite");
         newSprite.transform.SetParent(roadEntity.transform);
         newSprite.transform.position = roadEntity.transform.position;

@@ -18,8 +18,8 @@ public class EntityMovement : MonoBehaviour
     private int currentPathIndex = 0;
     private Vector2 nextMoveToLocation;
 
-    public event Action<MoveDirections> MoveDirectionChange = delegate { };
-    public event Action DestinationReached = delegate { };
+    public event Action<MoveDirections> MoveDirectionChangHandler = delegate { };
+    public event Action DestinationReachedHandler = delegate { };
 
     private void Start()
     {
@@ -43,7 +43,7 @@ public class EntityMovement : MonoBehaviour
         else
         {
             isMoving = false;
-            DestinationReached();
+            DestinationReachedHandler();
         }
         
     }
@@ -67,7 +67,7 @@ public class EntityMovement : MonoBehaviour
                 else
                 {
                     isMoving = false;
-                    DestinationReached();
+                    DestinationReachedHandler();
                 }
             }
         }
@@ -120,7 +120,7 @@ public class EntityMovement : MonoBehaviour
             moveDirection = MoveDirections.NorthWest;
         }
 
-        MoveDirectionChange(moveDirection);
+        MoveDirectionChangHandler(moveDirection);
     }
 
     //void OnDrawGizmos()

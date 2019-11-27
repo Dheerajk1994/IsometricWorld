@@ -207,6 +207,7 @@ public class TerrainGenerator
         return (x >= 0 && x < worldWidth && y >= 0 && y < worldHeight);
     }
 
+    //returns tile pos in world given tile index
     public Vector2 GetTilePos(int x, int y)
     {
         return new Vector2(

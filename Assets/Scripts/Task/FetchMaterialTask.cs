@@ -36,22 +36,31 @@ public class FetchMaterialTask : Task
 
     public override void Validate(uint workAmount)
     {
-        Vector2 storagePos = ResourceManager.instance.getStorageAreaLocation(MaterialToFetch.resourceId);
-        Entity.GetComponent<EntityMovement>().Move(TerrainManager.instance.RequestPath(Entity.transform.position, storagePos));
-        Entity.GetComponent<EntityMovement>().DestinationReached += ReachedStorageLocation;
-        isValidated = true;
+        ResourceStorage closestStorage = ResourceManager.instance.GetClosestResourceStorageWithItem(this.Entity.transform.position, this.MaterialToFetch.resourceId);
+        if(closestStorage != null)
+        {
+            Tuple<int, int> closestStorageIndex = closestStorage.positionCellIndex; 
+            Entity.GetComponent<EntityMovement>().Move(TerrainManager.instance.RequestPath(Entity.transform.position, closestStorageIndex));
+            Entity.GetComponent<EntityMovement>().DestinationReachedHandler += ReachedStorageLocation;
+            isValidated = true;
+        }
+        else
+        {
+            isValidated = false;
+            OnFailure("Cannot find storage area.");
+        }
     }
 
     private void ReachedStorageLocation()
     {
-        this.Entity.GetComponent<EntityMovement>().DestinationReached -= ReachedStorageLocation;
+        this.Entity.GetComponent<EntityMovement>().DestinationReachedHandler -= ReachedStorageLocation;
         this.Entity.GetComponent<EntityMovement>().Move(TerrainManager.instance.RequestPath((Vector2)this.Entity.transform.position, this.TaskLocation));
-        this.Entity.GetComponent<EntityMovement>().DestinationReached += ReachedConstructionLocation;
+        this.Entity.GetComponent<EntityMovement>().DestinationReachedHandler += ReachedConstructionLocation;
     }
 
     private void ReachedConstructionLocation()
     {
-        Entity.GetComponent<EntityMovement>().DestinationReached -= ReachedConstructionLocation;
+        Entity.GetComponent<EntityMovement>().DestinationReachedHandler -= ReachedConstructionLocation;
         IsDone = true;
         OnFinish();
     }

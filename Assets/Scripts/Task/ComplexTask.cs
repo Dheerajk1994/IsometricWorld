@@ -50,6 +50,7 @@ public class ComplexTask : Task
         {
             currentTask = taskPrqQueue.Peek();
             currentTask.TaskCompleted += PrereqCompleted;
+            currentTask.TaskFailed += PrereqFailed;
             currentTask.AssignTaskToEntity(this.Entity);
         }
         else
@@ -62,5 +63,11 @@ public class ComplexTask : Task
     {
         taskPrqQueue.Dequeue();
         currentTask = null;
+    }
+
+    protected virtual void PrereqFailed(string reason)
+    {
+        taskPrqQueue.Dequeue();
+        OnFailure("Complex task failed: " + reason);
     }
 }
