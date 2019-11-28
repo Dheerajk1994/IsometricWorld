@@ -133,6 +133,7 @@ public enum ResourceEnum
 {
     Empty,
     Stone,
-    Wood
+    Wood,
+    Food
 }
 
