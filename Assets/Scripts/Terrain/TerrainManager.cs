@@ -21,12 +21,14 @@ public class TerrainManager : MonoBehaviour
     [SerializeField] public Sprite tentSprite;
     [SerializeField] public Sprite houseSprite;
     [SerializeField] public Sprite stoneSprite;
+    
+    [SerializeField] public Sprite logsSprite;
 
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private GameObject entitiesPrefab;
+    [SerializeField] private GameObject entityPrefab;
 
-    [SerializeField] private Transform tilesParent;
-    [SerializeField] private Transform gameEntitiesParent;
+    [SerializeField] private Transform tileParent;
+    [SerializeField] private Transform entityParent;
 
     public int WorldWidth { get => worldWidth; }
     public int WorldHeight { get => worldHeight;  }
@@ -78,7 +80,7 @@ public class TerrainManager : MonoBehaviour
         terrainGenerator.PopulateTerrainWithNoiseValues(ref tiles);
         terrainGenerator.PopulateTerrainWithEntities(tiles, ref worldEntities);
 
-        terrainGenerator.DrawWorld(tiles, worldEntities, tilePrefab, entitiesPrefab, tilesParent, gameEntitiesParent);
+        terrainGenerator.DrawWorld(tiles, worldEntities, ref worldObjects, tilePrefab, entityPrefab, tileParent, entityParent);
     }
 
     protected void Update()
@@ -87,53 +89,65 @@ public class TerrainManager : MonoBehaviour
     }
     
     //POSITION GETTERS/CONVERTERS
-    public Tuple<int, int> GetTilePosGivenWorldPos(float posX, float posY)
+    public Vector2Int GetTilePosGivenWorldPos(float posX, float posY)
     {
         return terrainGenerator.GetTilePosAtPointer(posX, posY);
     }
 
-    public Tuple<int, int> GetTilePosGivenWorldPos(Vector2 pos)
+    public Vector2Int GetTilePosGivenWorldPos(Vector2 pos)
     {
         return terrainGenerator.GetTilePosAtPointer(pos.x, pos.y);
     }
 
-    public Vector2 GetWorldPosGivenTileIndex(Tuple<int, int> tileIndex)
+    public Vector2 GetWorldPosGivenTileIndex(Vector2Int tileIndex)
     {
-        return terrainGenerator.GetTilePos(tileIndex.Item1, tileIndex.Item2);
+        return terrainGenerator.GetTilePos(tileIndex.x, tileIndex.y);
     }
 
-    public float GetDistanceBetween(in Vector2 pos1, in Tuple<int, int> pos2)
+    public float GetDistanceBetween(in Vector2 pos1, in Vector2Int pos2)
     {
-        return (Vector3.Distance(pos1, terrainGenerator.GetTilePos(pos2.Item1, pos2.Item2)));
+        return (Vector3.Distance(pos1, terrainGenerator.GetTilePos(pos2.x, pos2.y)));
     }
 
     //PATH REQUESTS
     public List<Vector2> RequestPath(Vector2 currentPos, Vector2 destinationPos)
     {
         //Debug.Log("requestpath to " + destinationPos);
-        Tuple<int, int> posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
-        Tuple<int, int> posEnd = terrainGenerator.GetTilePosAtPointer(destinationPos.x, destinationPos.y);
-        List<Tuple<int, int>> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref posEnd);
+        Vector2Int posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
+        Vector2Int posEnd = terrainGenerator.GetTilePosAtPointer(destinationPos.x, destinationPos.y);
+        List<Vector2Int> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref posEnd);
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
-    public List<Vector2> RequestPath(Vector2 currentPos, Tuple<int, int> endCellIndex)
+    public List<Vector2> RequestPath(Vector2 currentPos, Vector2Int endCellIndex)
     {
         //Debug.Log("requestpath to cell " + endCellIndex);
-        Tuple<int, int> posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
+        Vector2Int posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
 
-        List<Tuple<int, int>> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref endCellIndex);
+        List<Vector2Int> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref endCellIndex);
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
     //HELPERS
-    public bool CanBeBuiltOn(in Tuple<int, int> cellIndex)
+    public bool CanBeBuiltOn(in Vector2Int cellIndex)
     {
         return
-            cellIndex.Item2 * worldWidth + cellIndex.Item1 >= 0 &&
-            cellIndex.Item2 * worldWidth + cellIndex.Item1 < worldEntities.Length &&
-            worldEntities[cellIndex.Item2 * worldWidth + cellIndex.Item1] == null &&
-            tiles[cellIndex.Item2 * worldWidth + cellIndex.Item1].TerrainType != TerrainTypes.Water;
+            cellIndex.y * worldWidth + cellIndex.x >= 0 &&
+            cellIndex.y * worldWidth + cellIndex.x < worldEntities.Length &&
+            worldEntities[cellIndex.y * worldWidth + cellIndex.x] == null &&
+            tiles[cellIndex.y * worldWidth + cellIndex.x].TerrainType != TerrainTypes.Water;
+    }
+
+    public StaticEntityType GetEntityTypeOn(in Vector2Int cellIndex)
+    {
+        if(worldEntities[cellIndex.y * worldWidth + cellIndex.x] != null)
+        {
+            return worldEntities[cellIndex.y * worldWidth + cellIndex.x].EntityType;
+        }
+        else
+        {
+            return StaticEntityType.Empty;
+        }
     }
 
     public void DisplayTileAtPosition(ref GameObject tile, Vector2 pos)
@@ -141,17 +155,17 @@ public class TerrainManager : MonoBehaviour
         terrainGenerator.PlaceTileInWorld(ref tile, pos);
     }
 
-    public void AddBuildingToWorld(ConstructionObject constructionObj, Tuple<int, int> arrayIndexPos)
+    public void AddBuildingToWorld(ConstructionObject constructionObj, Vector2Int arrayIndexPos)
     {
-        worldEntities[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1] = new Entity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
+        worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = new Entity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
 
-        GameObject entity = Instantiate(entitiesPrefab);
-        entity.transform.SetParent(gameEntitiesParent);
-        terrainGenerator.PlaceTileInWorld(ref entity, arrayIndexPos.Item1, arrayIndexPos.Item2);
+        GameObject entity = Instantiate(entityPrefab);
+        entity.transform.SetParent(entityParent);
+        terrainGenerator.PlaceTileInWorld(ref entity, arrayIndexPos.x, arrayIndexPos.y);
 
-        worldObjects[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1] = entity;
-        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].IsTraversable = constructionObj.traversable;
-        tiles[arrayIndexPos.Item2 * worldWidth + arrayIndexPos.Item1].TraversalDifficulty = constructionObj.traversalRate;
+        worldObjects[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = entity;
+        tiles[arrayIndexPos.y * worldWidth + arrayIndexPos.x].IsTraversable = constructionObj.traversable;
+        tiles[arrayIndexPos.y * worldWidth + arrayIndexPos.x].TraversalDifficulty = constructionObj.traversalRate;
 
         //NEEDS REVISION
         if(constructionObj.constructionObjectID == StaticEntityType.Road)
@@ -169,13 +183,21 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
-
-    public void RemoveBuildingFromWorld(Tuple <int, int> arrayIndexPos)
+    public void RemoveEntityFromWorld(Vector2Int arrayIndexPos)
     {
-        if(worldEntities[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2] != null)
+        if(worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] != null)
         {
-            worldEntities[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2] = null;
-            Destroy(worldObjects[arrayIndexPos.Item1 * worldWidth + arrayIndexPos.Item2].gameObject);
+            worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = null;
+            Destroy(worldObjects[arrayIndexPos.y * worldWidth + arrayIndexPos.x].gameObject);
+        }
+    }
+
+    public void AddEntityToWorld(Vector2Int pos, StaticEntityType type)
+    {
+        if(worldEntities[pos.y * WorldHeight + pos.x] == null)
+        {
+            worldEntities[pos.y * WorldHeight + pos.x] = new Entity(type.ToString(), type, pos, null);
+            terrainGenerator.PlaceEntityInWorld(pos.x, pos.y, type, worldEntities, worldObjects, entityPrefab, entityParent);
         }
     }
 }

@@ -8,13 +8,13 @@ public class ResourceStorage
     public ResourceEnum storedResourceType { get; protected set; }
     public uint inventorySize { get; protected set; }
     public uint currentAmountInInventory { get; protected set; }
-    public Tuple<int,int> positionCellIndex { get; protected set; }
+    public Vector2Int positionCellIndex { get; protected set; }
 
     //DELEGATES
     public event Action<ResourceEnum, uint> ResourceAddedHandler = delegate { }; 
     public event Action<ResourceEnum, uint> ResourceRemovedHandler = delegate { }; 
 
-    public ResourceStorage(Tuple<int, int> positionCellIndex)
+    public ResourceStorage(Vector2Int positionCellIndex)
     {
         this.positionCellIndex = positionCellIndex;
     }

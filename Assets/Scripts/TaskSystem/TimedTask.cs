@@ -8,7 +8,7 @@ public class TimedTask : Task
     protected float timeValue = 0;
     private float currentTimeValue = 0;
 
-    public TimedTask(float timeValue, Tuple<int, int> taskLocation, string taskName) : base(taskName)
+    public TimedTask(float timeValue, Vector2Int taskLocation, string taskName) : base(taskName)
     {
         this.timeValue = timeValue;
         this.TaskLocation = taskLocation;

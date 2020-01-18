@@ -33,7 +33,7 @@ public class GameStateBuild : PointerIcon, IGameEventState
     protected override void OnLeftClick()
     {
         Vector2 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
-        Tuple <int, int> buildCell = TerrainManager.instance.GetTilePosGivenWorldPos(mouseWorldPos);
+        Vector2Int buildCell = TerrainManager.instance.GetTilePosGivenWorldPos(mouseWorldPos);
         if (TerrainManager.instance.CanBeBuiltOn(buildCell))
         {
             TaskManager.instance.AddTask(new BuildTask(constructionObject, "build tent", buildCell));

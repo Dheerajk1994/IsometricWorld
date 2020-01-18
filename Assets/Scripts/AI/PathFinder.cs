@@ -14,17 +14,17 @@ public static class PathFinder
     static int destinationTileX, destinationTileY;
 
 
-    public static List<Tuple<int, int>> FindPath(ref Tile[] worldTileTraversalData, 
+    public static List<Vector2Int> FindPath(ref Tile[] worldTileTraversalData, 
                                   ref int worldWidth, 
                                   ref int worldHeight, 
-                                  ref Tuple<int, int> startTile,
-                                  ref Tuple<int, int> destTile)
+                                  ref Vector2Int startTile,
+                                  ref Vector2Int destTile)
     {
-        int startingTileX = startTile.Item1;
-        int startingTileY = startTile.Item2;
+        int startingTileX = startTile.x;
+        int startingTileY = startTile.y;
 
-        destinationTileX = destTile.Item1;
-        destinationTileY = destTile.Item2;
+        destinationTileX = destTile.x;
+        destinationTileY = destTile.y;
 
         tiles = new TileVal[worldWidth * worldHeight];
         openList = new List<TileVal>();
@@ -197,13 +197,13 @@ public static class PathFinder
         return 0;        
     }
 
-    private static List<Tuple<int, int>> GetFinalPath(TileVal endTile, TileVal startingTile)
+    private static List<Vector2Int> GetFinalPath(TileVal endTile, TileVal startingTile)
     {
-        List<Tuple<int, int>> path = new List<Tuple<int, int>>();
+        List<Vector2Int> path = new List<Vector2Int>();
         TileVal currentTile = endTile;
         while(currentTile != startingTile)
         {
-            path.Add(Tuple.Create(currentTile.x, currentTile.y));
+            path.Add(new Vector2Int(currentTile.x, currentTile.y));
             currentTile = currentTile.parentile;
         }
         path.Reverse();

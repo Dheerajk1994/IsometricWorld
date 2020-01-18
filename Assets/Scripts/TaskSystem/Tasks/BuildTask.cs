@@ -8,7 +8,7 @@ public class BuildTask : ComplexTask
     public ConstructionObject constructionObject { get; private set; }
     public List<ResourceAndAmount> materialsNeeded;
     
-    public BuildTask(ConstructionObject constructionObject, string taskName, Tuple<int, int> mainTaskLocation) : base(taskName, mainTaskLocation)
+    public BuildTask(ConstructionObject constructionObject, string taskName, Vector2Int mainTaskLocation) : base(taskName, mainTaskLocation)
     {
         this.constructionObject = constructionObject;
         materialsNeeded = new List<ResourceAndAmount>();

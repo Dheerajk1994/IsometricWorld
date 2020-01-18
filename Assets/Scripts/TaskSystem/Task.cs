@@ -8,7 +8,7 @@ public abstract class Task
     public string TaskName { get; private set; }
     public bool IsDone { get; protected set; }
     public bool IsBeingValidated { get; protected set; }
-    public Tuple<int, int> TaskLocation { get; protected set; }
+    public Vector2Int TaskLocation { get; protected set; }
     public GameObject Entity { get; protected set; }
 
     public static TerrainManager terrainMngInstance { get; protected set; }

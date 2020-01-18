@@ -13,11 +13,11 @@ public class TerrainSpritesManager : MonoBehaviour
 
     //SETS ROAD SPRITES - CHECKS ADJACENT TILES TO SEE IF THERE ARE ROADS
     //THEN SETS THE ROAD SPRITE ACCORDINGLY
-    public void UpdateRoadSprite(in Tuple<int, int> roadAddedIndex, int worldWidth, int worldHeight, ref GameObject currentRoadObject, ref Entity[] worldEntities, in GameObject[] worldObjects)
+    public void UpdateRoadSprite(in Vector2Int roadAddedIndex, int worldWidth, int worldHeight, ref GameObject currentRoadObject, ref Entity[] worldEntities, in GameObject[] worldObjects)
     {
         //RemoveAllChildrenFromObject(ref currentRoadObject);
-        Debug.Log(worldEntities[roadAddedIndex.Item2 * worldWidth + roadAddedIndex.Item1].EntityType);
-        if(worldEntities[roadAddedIndex.Item2 * worldWidth + roadAddedIndex.Item1] == null)
+        Debug.Log(worldEntities[roadAddedIndex.y * worldWidth + roadAddedIndex.x].EntityType);
+        if(worldEntities[roadAddedIndex.y * worldWidth + roadAddedIndex.x] == null)
         {
             return;
         }
@@ -27,7 +27,7 @@ public class TerrainSpritesManager : MonoBehaviour
         //NEED HUGE OPTIMIZATION HERE
 
         //up
-        indexToCheck = (int)((roadAddedIndex.Item2 + 1)* worldWidth + (roadAddedIndex.Item1 + 1));
+        indexToCheck = (int)((roadAddedIndex.y + 1)* worldWidth + (roadAddedIndex.x + 1));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -36,7 +36,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //dtr
-        indexToCheck = (int)((roadAddedIndex.Item2) * worldWidth + (roadAddedIndex.Item1 + 1));
+        indexToCheck = (int)((roadAddedIndex.y) * worldWidth + (roadAddedIndex.x + 1));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -45,7 +45,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //right
-        indexToCheck = (int)((roadAddedIndex.Item2 - 1) * worldWidth + (roadAddedIndex.Item1 + 1));
+        indexToCheck = (int)((roadAddedIndex.y - 1) * worldWidth + (roadAddedIndex.x + 1));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -54,7 +54,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //dbr
-        indexToCheck = (int)((roadAddedIndex.Item2 - 1) * worldWidth + (roadAddedIndex.Item1));
+        indexToCheck = (int)((roadAddedIndex.y - 1) * worldWidth + (roadAddedIndex.x));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -63,7 +63,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //down
-        indexToCheck = (int)((roadAddedIndex.Item2 - 1) * worldWidth + (roadAddedIndex.Item1 - 1));
+        indexToCheck = (int)((roadAddedIndex.y - 1) * worldWidth + (roadAddedIndex.x - 1));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -72,7 +72,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //dbl
-        indexToCheck = (int)((roadAddedIndex.Item2) * worldWidth + (roadAddedIndex.Item1 - 1));
+        indexToCheck = (int)((roadAddedIndex.y) * worldWidth + (roadAddedIndex.x - 1));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -81,7 +81,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //left
-        indexToCheck = (int)((roadAddedIndex.Item2 + 1) * worldWidth + (roadAddedIndex.Item1 - 1));
+        indexToCheck = (int)((roadAddedIndex.y + 1) * worldWidth + (roadAddedIndex.x - 1));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;
@@ -90,7 +90,7 @@ public class TerrainSpritesManager : MonoBehaviour
         }
 
         //dtl
-        indexToCheck = (int)((roadAddedIndex.Item2 + 1) * worldWidth + (roadAddedIndex.Item1));
+        indexToCheck = (int)((roadAddedIndex.y + 1) * worldWidth + (roadAddedIndex.x));
         if (worldEntities[indexToCheck] != null && worldEntities[indexToCheck].EntityType == StaticEntityType.Road)
         {
             noConnection = false;

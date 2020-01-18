@@ -1488,10 +1488,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1739144613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f749e3ddb3152f442899f0be81846ceb, type: 3}
+  m_Script: {fileID: 11500000, guid: 52a9c7a49fa5f6b4f9ec3f1cb21ec742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constructionObject: {fileID: 0}
+  cutwoodsprite: {fileID: 4643110748384114361, guid: a44f8f6706922d94a98096dd5c83f5b7,
+    type: 3}
 --- !u!114 &1739144616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,7 +1537,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1739144615}
-        m_MethodName: Build
+        m_MethodName: CutTree
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1627,17 +1628,18 @@ MonoBehaviour:
   waterSprite: {fileID: 21300000, guid: e0a2e0480fe66f6498023b3dc41189c1, type: 3}
   sandSprite: {fileID: 21300000, guid: 26b789120465a244396ccead74025c90, type: 3}
   plainsSprite: {fileID: 21300000, guid: 0081d02e8c4680c43b88874ea73b77ae, type: 3}
-  treeSprite: {fileID: 21300000, guid: 813869d4b6552cf4ab90672fb26141ce, type: 3}
+  treeSprite: {fileID: 21300000, guid: 300b8a89711268a468037602fbf7535f, type: 3}
   tentSprite: {fileID: 21300000, guid: 547ed3db566b1be4b8e6857bc530b0d2, type: 3}
   houseSprite: {fileID: -8691573683933342277, guid: c3ef1b8625bf4fc49b4bd6e569196128,
     type: 3}
   stoneSprite: {fileID: 21300000, guid: fefa828b54af77348885f38a841e32b4, type: 3}
+  logsSprite: {fileID: 21300000, guid: c5faa1d685ddd5a48ac9cbd95a9f3bc0, type: 3}
   tilePrefab: {fileID: 2360199621023585069, guid: d8e6d5b4d8d8ccc40a6f1e216e12e976,
     type: 3}
-  entitiesPrefab: {fileID: 2111430748960518182, guid: 4b156fb936d079c42a9baa53f8d52611,
+  entityPrefab: {fileID: 2111430748960518182, guid: 4b156fb936d079c42a9baa53f8d52611,
     type: 3}
-  tilesParent: {fileID: 1981310748}
-  gameEntitiesParent: {fileID: 1529099393}
+  tileParent: {fileID: 1981310748}
+  entityParent: {fileID: 1529099393}
 --- !u!4 &1759423937
 Transform:
   m_ObjectHideFlags: 0

@@ -7,12 +7,12 @@ public class Entity
 {
     public string EntityName { get; private set; }
     public StaticEntityType EntityType { get; private set; }
-    public Tuple<int, int> CellIndex { get; private set; }
+    public Vector2Int CellIndex { get; private set; }
     public Sprite EntitySprite { get; private set; }
 
     public Entity() { }
 
-    public Entity(string entityName, StaticEntityType entityType, Tuple<int, int> CellIndex, Sprite entitySprite)
+    public Entity(string entityName, StaticEntityType entityType, Vector2Int CellIndex, Sprite entitySprite)
     {
         this.EntityName = entityName;
         this.EntityType = entityType;

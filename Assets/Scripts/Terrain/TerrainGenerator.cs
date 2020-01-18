@@ -35,7 +35,7 @@ public class TerrainGenerator
         this.worldOriginY = worldOriginY;
     }
 
-    public Tuple<int, int> GetTilePosAtPointer(float worldPosX, float worldPosY)
+    public Vector2Int GetTilePosAtPointer(float worldPosX, float worldPosY)
     {
         int cellX = Mathf.RoundToInt(worldPosX / tileScaleWidth);
         int cellY = Mathf.RoundToInt(worldPosY / tileScaleHeight);
@@ -72,7 +72,7 @@ public class TerrainGenerator
                 selectedX--;
             }
         }
-        return Tuple.Create(selectedX, selectedY);
+        return new Vector2Int(selectedX, selectedY);
     }
 
     public void PopulateTerrainWithNoiseValues(ref Tile[] tiles)
@@ -108,17 +108,17 @@ public class TerrainGenerator
                 float entityVal = TerrainNoise.GetNoise(x, y, 50f);
                 if (entityVal < 0.3f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
                 {
-                    entities[y * worldHeight + x] = new Entity("Tree", StaticEntityType.Tree, new Tuple<int, int>(x, y), null);
+                    entities[y * worldHeight + x] = new Entity("Tree", StaticEntityType.Tree, new Vector2Int(x, y), null);
                 }
                 else if(entityVal > 0.5f && entityVal < 0.52f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
                 {
-                    entities[y * worldHeight + x] = new Entity("Stone", StaticEntityType.Stone, new Tuple<int, int>(x, y), null);
+                    entities[y * worldHeight + x] = new Entity("Stone", StaticEntityType.Stone, new Vector2Int(x, y), null);
                 }
             }
         }
     }
 
-    public void DrawWorld(in Tile[] tiles, in Entity[] entities, GameObject tilePrefab, GameObject entityPrefab, in Transform tilesParent, in Transform entityParent)
+    public void DrawWorld(in Tile[] tiles, in Entity[] entities, ref GameObject[] worldObjects, GameObject tilePrefab, GameObject entityPrefab, in Transform tilesParent, in Transform entityParent)
     {
         for(int y = 0; y < worldHeight; ++y)
         {
@@ -136,10 +136,7 @@ public class TerrainGenerator
                 //ENTITY
                 if(entities[y * worldHeight + x] != null)
                 {
-                    GameObject entity = UnityEngine.Object.Instantiate(entityPrefab);
-                    entity.transform.SetParent(entityParent);
-                    SetEntitySprite(entities[y * worldHeight + x].EntityType, ref entity);
-                    PlaceTileInWorld(ref entity, x, y);
+                    PlaceEntityInWorld(x, y, entities[y * worldHeight + x].EntityType, entities, worldObjects, entityPrefab, entityParent);
                 }
             }
         }
@@ -175,6 +172,9 @@ public class TerrainGenerator
             case StaticEntityType.Stone:
                 entity.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.stoneSprite;
                 break;
+            case StaticEntityType.Logs:
+                entity.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.logsSprite;
+                break;
         }
     }
 
@@ -185,19 +185,28 @@ public class TerrainGenerator
 
     public void PlaceTileInWorld(ref GameObject tile, Vector2 position)
     {
-        Tuple<int, int> pos = GetTilePosAtPointer(position.x, position.y);
-        PlaceTileInWorld(ref tile, pos.Item1, pos.Item2);
+        Vector2Int pos = GetTilePosAtPointer(position.x, position.y);
+        PlaceTileInWorld(ref tile, pos.x, pos.y);
+    }
+
+    public void PlaceEntityInWorld(int x, int y, StaticEntityType type, in Entity[] entities, GameObject[] entityObjects, GameObject entityPrefab, Transform entityParent)
+    {
+        GameObject entity = UnityEngine.Object.Instantiate(entityPrefab);
+        entity.transform.SetParent(entityParent);
+        SetEntitySprite(entities[y * worldHeight + x].EntityType, ref entity);
+        PlaceTileInWorld(ref entity, x, y);
+        entityObjects[y * worldHeight + x] = entity;
     }
 
     //HELPER FUNCTIONS
 
-    public List<Vector2> TurnCellIndexesIntoPositions(in List<Tuple<int, int>> path)
+    public List<Vector2> TurnCellIndexesIntoPositions(in List<Vector2Int> path)
     {
         if (path == null) { return null; }
         List<Vector2> newPath = new List<Vector2>();
-        foreach (Tuple<int, int> tuple in path)
+        foreach (Vector2Int tuple in path)
         {
-            newPath.Add(GetTilePos(tuple.Item1, tuple.Item2));
+            newPath.Add(GetTilePos(tuple.x, tuple.y));
         }
         return newPath;
     }

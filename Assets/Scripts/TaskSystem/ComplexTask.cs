@@ -8,7 +8,7 @@ public class ComplexTask : Task
     protected Queue<Task> taskPrqQueue;
     protected Task currentTask;
 
-    public ComplexTask(string taskName, Tuple<int, int> taskLocation) : base(taskName)
+    public ComplexTask(string taskName, Vector2Int taskLocation) : base(taskName)
     {
         this.TaskLocation = taskLocation;
         taskPrqQueue = new Queue<Task>();

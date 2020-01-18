@@ -32,7 +32,11 @@ public class GameManager : MonoBehaviour
         gameEventStateMachine.ChangeState(normalState);
     }
 
-
+    //test
+    public void RequestNewState(IGameEventState newstate)
+    {
+        gameEventStateMachine.ChangeState(newstate);
+    }
     public void RequestBuildState(ConstructionObject constructionObject, int buildingID)
     {
         GameStateBuild buildState= new GameStateBuild(constructionObject, mainCamera);

@@ -10,7 +10,7 @@ public class FetchMaterialTask : Task
 
     private bool isValidated = false;
 
-    public FetchMaterialTask(string taskName, ResourceAndAmount materialToFetch, Tuple<int, int> FetchLocation) : base (taskName)
+    public FetchMaterialTask(string taskName, ResourceAndAmount materialToFetch, Vector2Int FetchLocation) : base (taskName)
     {
         this.MaterialToFetch = materialToFetch;
         this.TaskLocation = FetchLocation;
@@ -39,7 +39,7 @@ public class FetchMaterialTask : Task
         ResourceStorage closestStorage = ResourceManager.instance.GetClosestResourceStorageWithItem(this.Entity.transform.position, this.MaterialToFetch.resourceId);
         if(closestStorage != null)
         {
-            Tuple<int, int> closestStorageIndex = closestStorage.positionCellIndex; 
+            Vector2Int closestStorageIndex = closestStorage.positionCellIndex; 
             Entity.GetComponent<EntityMovement>().Move(TerrainManager.instance.RequestPath(Entity.transform.position, closestStorageIndex));
             Entity.GetComponent<EntityMovement>().DestinationReachedHandler += ReachedStorageLocation;
             isValidated = true;

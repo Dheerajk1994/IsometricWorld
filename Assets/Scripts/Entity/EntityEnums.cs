@@ -17,5 +17,6 @@ public enum StaticEntityType
     House,
     StorageArea,
     Road,
-    Stone
+    Stone,
+    Logs
 }
