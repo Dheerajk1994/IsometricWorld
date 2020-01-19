@@ -13,16 +13,16 @@ public class TerrainManager : MonoBehaviour
     [SerializeField] private int tileUnitWidthSize, tileUnityHeightSize;
     [SerializeField] private int worldOriginX, worldOriginY;
 
-    [SerializeField] public Sprite waterSprite;
-    [SerializeField] public Sprite sandSprite;
-    [SerializeField] public Sprite plainsSprite;
-
-    [SerializeField] public Sprite treeSprite;
-    [SerializeField] public Sprite tentSprite;
-    [SerializeField] public Sprite houseSprite;
-    [SerializeField] public Sprite stoneSprite;
-    
-    [SerializeField] public Sprite logsSprite;
+    //[SerializeField] public Sprite waterSprite;
+    //[SerializeField] public Sprite sandSprite;
+    //[SerializeField] public Sprite plainsSprite;
+    //
+    //[SerializeField] public Sprite treeSprite;
+    //[SerializeField] public Sprite tentSprite;
+    //[SerializeField] public Sprite houseSprite;
+    //[SerializeField] public Sprite stoneSprite;
+    //
+    //[SerializeField] public Sprite logsSprite;
 
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject entityPrefab;

@@ -10,10 +10,9 @@ public class FetchMaterialTask : Task
 
     private bool isValidated = false;
 
-    public FetchMaterialTask(string taskName, ResourceAndAmount materialToFetch, Vector2Int FetchLocation) : base (taskName)
+    public FetchMaterialTask(string taskName, ResourceAndAmount materialToFetch, Vector2Int FetchLocation) : base (taskName, FetchLocation)
     {
         this.MaterialToFetch = materialToFetch;
-        this.TaskLocation = FetchLocation;
     }
 
     public override void AssignTaskToEntity(GameObject entity)
@@ -21,20 +20,16 @@ public class FetchMaterialTask : Task
         this.Entity = entity;
     }
 
-    public override void Execute(uint workAmount)
+    public override void Execute(ref uint workAmount)
     {
+        Debug.Log("fetch materials");
         if (!isValidated)
         {
-            Validate(workAmount);
+            Validate(ref workAmount);
         }
     }
 
-    public override bool IsValidated()
-    {
-        return isValidated;
-    }
-
-    public override void Validate(uint workAmount)
+    protected void Validate(ref uint workAmount)
     {
         ResourceStorage closestStorage = ResourceManager.instance.GetClosestResourceStorageWithItem(this.Entity.transform.position, this.MaterialToFetch.resourceId);
         if(closestStorage != null)
@@ -61,7 +56,6 @@ public class FetchMaterialTask : Task
     private void ReachedConstructionLocation()
     {
         Entity.GetComponent<EntityMovement>().DestinationReachedHandler -= ReachedConstructionLocation;
-        IsDone = true;
         OnFinish();
     }
 

@@ -7,7 +7,9 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager instance;
     [SerializeField]private List<ResourceStorage> resourceStorageList;
-    private Dictionary<ResourceEnum, uint> resourceAndAmountDict;
+    private Dictionary<StaticEntityType, uint> resourceAndAmountDict;
+
+    private List<ResourceEntity> entitiesLyingInWorld;
 
     private void Awake()
     {
@@ -27,26 +29,37 @@ public class ResourceManager : MonoBehaviour
         {
             resourceStorageList = new List<ResourceStorage>();
         }
-        resourceAndAmountDict = new Dictionary<ResourceEnum, uint>();
+        resourceAndAmountDict = new Dictionary<StaticEntityType, uint>();
+        entitiesLyingInWorld = new List<ResourceEntity>();
+    }
+
+    private void Update()
+    {
+        //see if there are any resources lying around and add them for hauling
+        if(entitiesLyingInWorld.Count > 0)
+        {
+            //TaskManager.instance.AddTask()
+        }
     }
 
     public void AddResourceStorage(ResourceStorage resourceStorage)
     {
         Debug.Log("added new resource storage area");
         resourceStorageList.Add(resourceStorage);
-        if(resourceStorage.storedResourceType != ResourceEnum.Empty)
+        if(resourceStorage.storedResourceType != StaticEntityType.Empty)
         {
             if (!resourceAndAmountDict.ContainsKey(resourceStorage.storedResourceType))
             {
                 resourceAndAmountDict.Add(resourceStorage.storedResourceType, resourceStorage.currentAmountInInventory);
             }
         }
+        //adding delegates
         resourceStorage.ResourceAddedHandler += ResourceWasAdded;
         resourceStorage.ResourceRemovedHandler += ResourceWasRemoved;
     }
 
     //FETCH LIST OF STORAGE AREAS WITH GIVEN RESOURCE TYPE
-    public List<ResourceStorage> GetStorageAreas(ResourceEnum resourceEnum)
+    public List<ResourceStorage> GetStorageAreas(StaticEntityType resourceEnum)
     {
         List<ResourceStorage> storageList = new List<ResourceStorage>();
         foreach(ResourceStorage storage in resourceStorageList)
@@ -60,7 +73,7 @@ public class ResourceManager : MonoBehaviour
     }
 
     //FETCH THE CLOSEST STORAGE AREA WITH GIVEN TYPE
-    public ResourceStorage GetClosestResourceStorageWithItem(in Vector2 pos, ResourceEnum resourceEnum)
+    public ResourceStorage GetClosestResourceStorageWithItem(in Vector2 pos, StaticEntityType resourceEnum)
     {
         float dist = -1;
         ResourceStorage closestStorage = null;
@@ -88,13 +101,13 @@ public class ResourceManager : MonoBehaviour
     }
 
     //FETCH THE CLOSEST STORAGE AREA TO PLACE ITEM
-    public ResourceStorage GetClosestResourceStorageToStoreItem(in Vector2 pos, ResourceEnum resourceEnum)
+    public ResourceStorage GetClosestResourceStorageToStoreItem(in Vector2 pos, StaticEntityType resourceEnum)
     {
         float dist = -1;
         ResourceStorage closestStorage = null;
         foreach (ResourceStorage resourceStorage in resourceStorageList)
         {
-            if (resourceStorage.storedResourceType == resourceEnum || resourceStorage.storedResourceType == ResourceEnum.Empty)
+            if (resourceStorage.storedResourceType == resourceEnum || resourceStorage.storedResourceType == StaticEntityType.Empty)
             {
                 float potDistnace = TerrainManager.instance.GetDistanceBetween(pos, resourceStorage.positionCellIndex);
                 if (dist == -1)
@@ -116,24 +129,24 @@ public class ResourceManager : MonoBehaviour
     }
 
     //DETECT RESOURCE ADD
-    private void ResourceWasAdded(ResourceEnum resourceEnum, uint amnt)
+    private void ResourceWasAdded(StaticEntityType resourceEnum, uint amnt)
     {
         resourceAndAmountDict[resourceEnum] += amnt;
     }
 
     //DETECT RESOURCE REMOVE
-    private void ResourceWasRemoved(ResourceEnum resourceEnum, uint amnt)
+    private void ResourceWasRemoved(StaticEntityType resourceEnum, uint amnt)
     {
         //CAREFUL
         resourceAndAmountDict[resourceEnum] -= amnt;
     }
-}
 
-public enum ResourceEnum
-{
-    Empty,
-    Stone,
-    Wood,
-    Food
+    public void ResourceDropped(StaticEntityType resourceEnum, Vector2Int tileIndex, int amount)
+    {
+        Debug.Log("Resource " + resourceEnum.ToString() + " dropped");
+        TerrainManager.instance.AddEntityToWorld(tileIndex, resourceEnum);
+        ResourceEntity rEntity = new ResourceEntity(resourceEnum.ToString(), resourceEnum, tileIndex, null);
+        entitiesLyingInWorld.Add(rEntity);
+        TaskManager.instance.AddTask(new HaulTask("Haul " + resourceEnum.ToString(), tileIndex, rEntity));
+    }
 }
-

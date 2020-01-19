@@ -78,10 +78,13 @@
      <Compile Include="Assets\Scripts\Game\GameState\IGameEventState.cs" />
      <Compile Include="Assets\Scripts\Game\GameState\PointerIcon.cs" />
      <Compile Include="Assets\Scripts\Game\ResourceManager.cs" />
+     <Compile Include="Assets\Scripts\Game\SpriteManager.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\ConstructionObject.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\Road.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\StorageBox.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\Tent.cs" />
+     <Compile Include="Assets\Scripts\Storage\IDropOff.cs" />
+     <Compile Include="Assets\Scripts\Storage\IGrabFrom.cs" />
      <Compile Include="Assets\Scripts\Storage\ResourceStorage.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\ComplexTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\EntityTaskExecuter.cs" />
@@ -90,6 +93,7 @@
      <Compile Include="Assets\Scripts\TaskSystem\TaskManager.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\Tasks\BuildTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\Tasks\ChopTreeTask.cs" />
+     <Compile Include="Assets\Scripts\TaskSystem\Tasks\GoToTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\Tasks\HaulTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\Tasks\MineRockTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\TimedTask.cs" />

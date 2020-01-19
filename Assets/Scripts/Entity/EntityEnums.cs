@@ -11,12 +11,18 @@ public enum TerrainTypes
 
 public enum StaticEntityType
 {
-    Empty,
-    Tree,
+    Empty =  0,
+    //world objects
+    Tree_Pine,
+    Boulder_Stone,
+
+    //buildings
     Tent,
     House,
     StorageArea,
     Road,
-    Stone,
-    Logs
+
+    //Resources
+    Logs,
+    Stone
 }

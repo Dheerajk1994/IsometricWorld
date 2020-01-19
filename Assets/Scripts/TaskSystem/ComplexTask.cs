@@ -8,9 +8,8 @@ public class ComplexTask : Task
     protected Queue<Task> taskPrqQueue;
     protected Task currentTask;
 
-    public ComplexTask(string taskName, Vector2Int taskLocation) : base(taskName)
+    public ComplexTask(string taskName, Vector2Int taskLocation) : base(taskName, taskLocation)
     {
-        this.TaskLocation = taskLocation;
         taskPrqQueue = new Queue<Task>();
     }
 
@@ -19,43 +18,25 @@ public class ComplexTask : Task
         this.Entity = entity;
     }
 
-    public override void Execute(uint workAmount)
+    public override void Execute(ref uint workAmount)
     {
-        if (currentTask != null)
+        if (currentTask == null)
         {
-            //NEEDS REVISION    
-            if (currentTask.IsValidated())
+            if (taskPrqQueue.Count > 0)
             {
-                currentTask.Execute(workAmount);
+                currentTask = taskPrqQueue.Peek();
+                currentTask.TaskCompleted += PrereqCompleted;
+                currentTask.TaskFailed += PrereqFailed;
+                currentTask.AssignTaskToEntity(this.Entity);
             }
-            else if(!currentTask.IsBeingValidated)
+            else
             {
-                currentTask.Validate(workAmount);
+                OnFinish();
             }
         }
         else
         {
-            Validate(workAmount);
-        }
-    }
-
-    public override bool IsValidated()
-    {
-        return true;
-    }
-    
-    public override void Validate(uint workAmount)
-    {
-        if (taskPrqQueue.Count > 0)
-        {
-            currentTask = taskPrqQueue.Peek();
-            currentTask.TaskCompleted += PrereqCompleted;
-            currentTask.TaskFailed += PrereqFailed;
-            currentTask.AssignTaskToEntity(this.Entity);
-        }
-        else
-        {
-            OnFinish();
+            currentTask.Execute(ref workAmount);
         }
     }
 

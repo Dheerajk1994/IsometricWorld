@@ -42,7 +42,7 @@ public class EntityTaskExecuter : MonoBehaviour
     {
         if (currentTask != null)
         {
-            currentTask.Execute(workAmount);
+            currentTask.Execute(ref workAmount);
         }
     }
     public void FinishTask()

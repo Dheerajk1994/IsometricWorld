@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class EntityRock : ResourceEntity, IMineable
 {
-    public EntityRock(ResourceEnum resourceEnum, uint resourceAmount, string entityName, StaticEntityType entityType, Tuple<int, int> CellIndex, Sprite entitySprite) : base()
+    public EntityRock(string entityName, StaticEntityType entityType, Vector2Int CellIndex, Sprite entitySprite) : base(entityName, entityType, CellIndex, entitySprite)
     {
-        
     }
 
     public void Mine()

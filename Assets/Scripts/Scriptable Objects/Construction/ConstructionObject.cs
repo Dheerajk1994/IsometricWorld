@@ -8,7 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public struct ResourceAndAmount
 {
-    public ResourceEnum resourceId;
+    public StaticEntityType resourceId;
     public uint resourceAmount;
 }
 

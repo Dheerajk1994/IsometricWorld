@@ -5,27 +5,27 @@ using UnityEngine;
 
 public class ResourceStorage
 {
-    public ResourceEnum storedResourceType { get; protected set; }
+    public StaticEntityType storedResourceType { get; protected set; }
     public uint inventorySize { get; protected set; }
     public uint currentAmountInInventory { get; protected set; }
     public Vector2Int positionCellIndex { get; protected set; }
 
     //DELEGATES
-    public event Action<ResourceEnum, uint> ResourceAddedHandler = delegate { }; 
-    public event Action<ResourceEnum, uint> ResourceRemovedHandler = delegate { }; 
+    public event Action<StaticEntityType, uint> ResourceAddedHandler = delegate { }; 
+    public event Action<StaticEntityType, uint> ResourceRemovedHandler = delegate { }; 
 
     public ResourceStorage(Vector2Int positionCellIndex)
     {
         this.positionCellIndex = positionCellIndex;
     }
 
-    public ResourceStorage(ResourceEnum storedResource, uint inventorySize)
+    public ResourceStorage(StaticEntityType storedResource, uint inventorySize)
     {
         this.storedResourceType = storedResource;
         this.inventorySize = inventorySize;
     }
 
-    public bool ChangeStoredResourceType(ResourceEnum newResourceType)
+    public bool ChangeStoredResourceType(StaticEntityType newResourceType)
     {
         if(currentAmountInInventory == 0)
         {
@@ -43,7 +43,7 @@ public class ResourceStorage
     }
 
     //ADDING ITEMS TO STORAGE RETURNS FALSE IF WAS NOT ABLE TO ADD ALL REQUESTED ITEMS
-    public bool AddToStorage(ResourceEnum resourceType, ref uint addAmount)
+    public bool AddToStorage(StaticEntityType resourceType, ref uint addAmount)
     {
         if(storedResourceType == resourceType)
         {
@@ -67,7 +67,7 @@ public class ResourceStorage
     }
 
     //REQUESTING ITEMS FROM STORAGE - RETURNS UINT OF ITEMS THAT CAN BE GRABBED
-    public uint GrabResource(ResourceEnum requestedResourceType, uint requestedAmount)
+    public uint GrabResource(StaticEntityType requestedResourceType, uint requestedAmount)
     {
         if(storedResourceType == requestedResourceType)
         {

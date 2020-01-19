@@ -16,7 +16,7 @@ public class ChopTreeTask : ComplexTask
         base.OnFinish();
         Debug.Log("finished cutting tree");
         TerrainManager.instance.RemoveEntityFromWorld(TaskLocation);
-        TerrainManager.instance.AddEntityToWorld(TaskLocation, StaticEntityType.Logs);
+        ResourceManager.instance.ResourceDropped(StaticEntityType.Logs, TaskLocation, 10);
     }
 
     protected override void OnFailure(string failureReason)

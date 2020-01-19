@@ -10,6 +10,7 @@ public class BuildTask : ComplexTask
     
     public BuildTask(ConstructionObject constructionObject, string taskName, Vector2Int mainTaskLocation) : base(taskName, mainTaskLocation)
     {
+        Debug.Log("build task added");
         this.constructionObject = constructionObject;
         materialsNeeded = new List<ResourceAndAmount>();
         for(int i = 0; i < constructionObject.constructionMaterials.Length; ++i)
@@ -24,6 +25,7 @@ public class BuildTask : ComplexTask
         }
 
         //ADD FINAL TASK - THE BUILDING ITSELF AFTER ALL PREREQ
+        taskPrqQueue.Enqueue(new GoToTask("Going to task location", TaskLocation));
         taskPrqQueue.Enqueue(new TimedTask(constructionObject.constructionTimeCost, mainTaskLocation,"Build " + constructionObject.buildingName));
 
 

@@ -2,8 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ResourceEntity : Entity
+public class ResourceEntity : Entity, IGrabFrom
 {
-    public ResourceEnum resourceType { get; protected set; }
+    public ResourceEntity(string entityName, StaticEntityType entityType, Vector2Int CellIndex, Sprite entitySprite) 
+        :
+        base(entityName, entityType, CellIndex, entitySprite)
+    {}
+
     public uint resourceAmount { get; protected set; }
+
+    public void Grab(StaticEntityType itemType, int amount)
+    {
+        Debug.LogError("grabbed from resource entity");
+    }
 }

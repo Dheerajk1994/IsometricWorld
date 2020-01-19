@@ -108,11 +108,11 @@ public class TerrainGenerator
                 float entityVal = TerrainNoise.GetNoise(x, y, 50f);
                 if (entityVal < 0.3f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
                 {
-                    entities[y * worldHeight + x] = new Entity("Tree", StaticEntityType.Tree, new Vector2Int(x, y), null);
+                    entities[y * worldHeight + x] = new Entity("Tree", StaticEntityType.Tree_Pine, new Vector2Int(x, y), null);
                 }
                 else if(entityVal > 0.5f && entityVal < 0.52f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
                 {
-                    entities[y * worldHeight + x] = new Entity("Stone", StaticEntityType.Stone, new Vector2Int(x, y), null);
+                    entities[y * worldHeight + x] = new Entity("Stone", StaticEntityType.Boulder_Stone, new Vector2Int(x, y), null);
                 }
             }
         }
@@ -144,38 +144,13 @@ public class TerrainGenerator
 
     public void SetTerrainSprite(in TerrainTypes type, ref GameObject tile)
     {
-        //needs optimization 
-        switch (type)
-        {
-            case TerrainTypes.Water:
-                tile.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.waterSprite;
-                break;
-            case TerrainTypes.Sand:
-                tile.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.sandSprite;
-                break;
-            case TerrainTypes.Plains:
-                tile.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.plainsSprite;
-                break;
-            default:
-                break;
-        }
+        tile.GetComponent<SpriteRenderer>().sprite = SpriteManager.instance.GetTerrainSprite(type);
     }
 
     public void SetEntitySprite(StaticEntityType type, ref GameObject entity)
     {
-        //needs optimization 
-        switch (type)
-        {
-            case StaticEntityType.Tree:
-                entity.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.treeSprite;
-                break;
-            case StaticEntityType.Stone:
-                entity.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.stoneSprite;
-                break;
-            case StaticEntityType.Logs:
-                entity.GetComponent<SpriteRenderer>().sprite = TerrainManager.instance.logsSprite;
-                break;
-        }
+        entity.GetComponent<SpriteRenderer>().sprite = SpriteManager.instance.GetStaticEntitySprite(type);
+
     }
 
     public void PlaceTileInWorld(ref GameObject tile, int x, int y)
@@ -186,7 +161,7 @@ public class TerrainGenerator
     public void PlaceTileInWorld(ref GameObject tile, Vector2 position)
     {
         Vector2Int pos = GetTilePosAtPointer(position.x, position.y);
-        PlaceTileInWorld(ref tile, pos.x, pos.y);
+        PlaceTileInWorld(ref tile, pos.x, pos.y);   
     }
 
     public void PlaceEntityInWorld(int x, int y, StaticEntityType type, in Entity[] entities, GameObject[] entityObjects, GameObject entityPrefab, Transform entityParent)
