@@ -11,8 +11,9 @@ public class ResourceEntity : Entity, IGrabFrom
 
     public uint resourceAmount { get; protected set; }
 
-    public void Grab(StaticEntityType itemType, int amount)
+    public int Grab(int amount)
     {
-        Debug.LogError("grabbed from resource entity");
+        TerrainManager.instance.RemoveEntityFromWorld(CellIndex);
+        return amount;
     }
 }

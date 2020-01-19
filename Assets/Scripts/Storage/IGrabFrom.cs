@@ -4,5 +4,5 @@ using UnityEngine;
 
 public  interface IGrabFrom
 {
-    void Grab(StaticEntityType itemType, int amount);
+    int Grab(int amount);
 }

@@ -8,7 +8,8 @@ public class ChopTreeTask : ComplexTask
     public ChopTreeTask(string taskName, Vector2Int taskLocation, float timeRequired)
         : base(taskName, taskLocation)
     {
-        taskPrqQueue.Enqueue(new TimedTask(timeRequired, taskLocation, taskName));
+        taskPrqQueue.Enqueue(new GoToTask("Going to " + TaskName, TaskLocation));
+        taskPrqQueue.Enqueue(new TimedTask(timeRequired, TaskLocation, TaskName));
     }
 
     protected override void OnFinish()

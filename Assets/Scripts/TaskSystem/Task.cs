@@ -14,9 +14,9 @@ public abstract class Task
     public event Action TaskCompleted = delegate { };
     public event Action<string> TaskFailed = delegate { };
 
-    public Task(string taskName, Vector2Int taskLocation)
+    public Task(string TaskName, Vector2Int TaskLocation)
     {
-        this.TaskName = taskName;
+        this.TaskName = TaskName;
         this.TaskLocation = TaskLocation;
     }
 

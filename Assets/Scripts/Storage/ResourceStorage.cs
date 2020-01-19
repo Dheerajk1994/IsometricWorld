@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceStorage
+public class ResourceStorage : IDropOff
 {
     public StaticEntityType storedResourceType { get; protected set; }
     public uint inventorySize { get; protected set; }
@@ -17,12 +17,14 @@ public class ResourceStorage
     public ResourceStorage(Vector2Int positionCellIndex)
     {
         this.positionCellIndex = positionCellIndex;
+        storedResourceType = StaticEntityType.Logs;
     }
 
     public ResourceStorage(StaticEntityType storedResource, uint inventorySize)
     {
         this.storedResourceType = storedResource;
         this.inventorySize = inventorySize;
+        storedResourceType = StaticEntityType.Logs;
     }
 
     public bool ChangeStoredResourceType(StaticEntityType newResourceType)
@@ -87,5 +89,10 @@ public class ResourceStorage
             }
         }
         return 0;
+    }
+
+    public void DropOff(StaticEntityType itemType, int amount)
+    {
+        //AddToStorage(itemType, ref (uint)amount);
     }
 }

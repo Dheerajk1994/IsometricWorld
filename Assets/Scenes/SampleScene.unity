@@ -425,6 +425,7 @@ GameObject:
   - component: {fileID: 651616574}
   - component: {fileID: 651616576}
   - component: {fileID: 651616577}
+  - component: {fileID: 651616578}
   m_Layer: 0
   m_Name: Dweller
   m_TagString: Untagged
@@ -483,6 +484,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91c6249c2ba594843ae87c11205d4391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &651616578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651616573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0adf8488d4104b44fad3b80fe11dc7c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &713940845
@@ -1688,15 +1701,6 @@ MonoBehaviour:
   tileUnityHeightSize: 20
   worldOriginX: 0
   worldOriginY: 0
-  waterSprite: {fileID: 21300000, guid: e0a2e0480fe66f6498023b3dc41189c1, type: 3}
-  sandSprite: {fileID: 21300000, guid: 26b789120465a244396ccead74025c90, type: 3}
-  plainsSprite: {fileID: 21300000, guid: 0081d02e8c4680c43b88874ea73b77ae, type: 3}
-  treeSprite: {fileID: 21300000, guid: 23576a1b40f0c2d4f9e1c089df57a2b5, type: 3}
-  tentSprite: {fileID: 21300000, guid: 547ed3db566b1be4b8e6857bc530b0d2, type: 3}
-  houseSprite: {fileID: -8691573683933342277, guid: c3ef1b8625bf4fc49b4bd6e569196128,
-    type: 3}
-  stoneSprite: {fileID: 21300000, guid: fefa828b54af77348885f38a841e32b4, type: 3}
-  logsSprite: {fileID: 21300000, guid: c5faa1d685ddd5a48ac9cbd95a9f3bc0, type: 3}
   tilePrefab: {fileID: 2360199621023585069, guid: d8e6d5b4d8d8ccc40a6f1e216e12e976,
     type: 3}
   entityPrefab: {fileID: 2111430748960518182, guid: 4b156fb936d079c42a9baa53f8d52611,

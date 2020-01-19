@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: StorageArea
   buildingSprite: {fileID: 21300000, guid: e7e1890a255aa60438f84b5186407eee, type: 3}
-  constructionObjectID: 4
+  constructionObjectID: 5
   constructionMaterials: []
-  constructionTimeCost: 1000
-  traversable: 0
-  traversalRate: 0
+  constructionTimeCost: 500
+  traversable: 1
+  traversalRate: 1

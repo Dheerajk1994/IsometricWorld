@@ -28,14 +28,15 @@ public class BuildTask : ComplexTask
         taskPrqQueue.Enqueue(new GoToTask("Going to task location", TaskLocation));
         taskPrqQueue.Enqueue(new TimedTask(constructionObject.constructionTimeCost, mainTaskLocation,"Build " + constructionObject.buildingName));
 
-
+        
         //Debug.Log("build task created");
     }
 
     protected override void OnFinish()
     {
-        base.OnFinish();
+        Debug.Log("finish called");
         TerrainManager.instance.AddBuildingToWorld(constructionObject, this.TaskLocation);
+        base.OnFinish();
     }
 
     protected override void OnFailure(string failureReason)

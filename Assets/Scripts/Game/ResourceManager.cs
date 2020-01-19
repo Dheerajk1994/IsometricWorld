@@ -38,9 +38,16 @@ public class ResourceManager : MonoBehaviour
         //see if there are any resources lying around and add them for hauling
         if(entitiesLyingInWorld.Count > 0)
         {
-            //TaskManager.instance.AddTask()
+            ResourceStorage storage = GetClosestResourceStorageWithItem(entitiesLyingInWorld[0].CellIndex, entitiesLyingInWorld[0].EntityType);
+            if(storage != null)
+            {
+                Debug.Log("closest storage area at " + storage.positionCellIndex);
+                ResourceEntity entity = entitiesLyingInWorld[0];
+                TaskManager.instance.AddTask( new HaulTask("Haul " + entity.EntityType, entity.CellIndex, storage.positionCellIndex, entity, storage, entity.EntityType));
+                entitiesLyingInWorld.RemoveAt(0);
+            }
         }
-    }
+    }   
 
     public void AddResourceStorage(ResourceStorage resourceStorage)
     {
@@ -147,6 +154,5 @@ public class ResourceManager : MonoBehaviour
         TerrainManager.instance.AddEntityToWorld(tileIndex, resourceEnum);
         ResourceEntity rEntity = new ResourceEntity(resourceEnum.ToString(), resourceEnum, tileIndex, null);
         entitiesLyingInWorld.Add(rEntity);
-        TaskManager.instance.AddTask(new HaulTask("Haul " + resourceEnum.ToString(), tileIndex, rEntity));
     }
 }

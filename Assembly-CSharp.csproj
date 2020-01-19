@@ -83,6 +83,7 @@
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\Road.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\StorageBox.cs" />
      <Compile Include="Assets\Scripts\Scriptable Objects\Construction\Tent.cs" />
+     <Compile Include="Assets\Scripts\Storage\EntityInventory.cs" />
      <Compile Include="Assets\Scripts\Storage\IDropOff.cs" />
      <Compile Include="Assets\Scripts\Storage\IGrabFrom.cs" />
      <Compile Include="Assets\Scripts\Storage\ResourceStorage.cs" />

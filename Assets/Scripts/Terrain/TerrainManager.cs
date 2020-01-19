@@ -157,6 +157,7 @@ public class TerrainManager : MonoBehaviour
 
     public void AddBuildingToWorld(ConstructionObject constructionObj, Vector2Int arrayIndexPos)
     {
+        Debug.Log("add building to world called");
         worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = new Entity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
 
         GameObject entity = Instantiate(entityPrefab);

@@ -18,6 +18,7 @@ public class GoToTask : Task
     {
         if (!isValid)
         {
+            Debug.Log("requesting path to " + TaskLocation);
             this.Entity.GetComponent<EntityMovement>().Move(TerrainManager.instance.RequestPath(Entity.transform.position, TaskLocation));
             this.Entity.GetComponent<EntityMovement>().DestinationReachedHandler += OnFinish;
             isValid = true;

@@ -5,18 +5,37 @@ using UnityEngine;
 public class HaulTask : ComplexTask
 {
     StaticEntityType itemHauling;
-    Vector2Int sourceLocation;
+    Vector2Int from;
     IGrabFrom grabFrom;
+    IDropOff dropOff;
+    StaticEntityType resourceType;
     int itemAmount;
-    public HaulTask(string taskName, Vector2Int taskLocation, IGrabFrom grabFrom) : base(taskName, taskLocation)
+    public HaulTask(string taskName, Vector2Int from, Vector2Int to, IGrabFrom grabFrom, IDropOff dropOff, StaticEntityType resourceType)
+        : 
+        base(taskName, to)
     {
+        Debug.Log("haul task from " + from + " to " + to);
+        this.from = from;
+        this.dropOff = dropOff;
         this.grabFrom = grabFrom;
-        taskPrqQueue.Enqueue(new GoToTask(taskName, sourceLocation));
-        taskPrqQueue.Enqueue(new GoToTask(taskName, taskLocation));
+        this.resourceType = resourceType;
+
+        GoToTask grabTask = new GoToTask(taskName, from);
+        grabTask.TaskCompleted += ReachedSourceLocation;
+        taskPrqQueue.Enqueue(grabTask);
+
+
+        GoToTask dropTask = new GoToTask(taskName, to);
+        dropTask.TaskCompleted += ReachedDestinationLocation;
+        taskPrqQueue.Enqueue(dropTask);
     }
 
-    public void ReachedSourceLocation() { }
+    public void ReachedSourceLocation() {
+        this.Entity.GetComponent<EntityInventory>().AddInventoryItem(resourceType, grabFrom.Grab(10));
+    }
 
-    public void ReachedDestinationLocation() { }
+    public void ReachedDestinationLocation() {
+        dropOff.DropOff(resourceType, this.Entity.GetComponent<EntityInventory>().RemoveInventoryItem(resourceType, 10));
+    }
 
 }

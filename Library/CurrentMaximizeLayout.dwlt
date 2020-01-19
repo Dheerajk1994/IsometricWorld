@@ -25,7 +25,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 494}
   m_MaxSize: {x: 18008, y: 14044}
   vertical: 0
-  controlID: 3212
+  controlID: 10312
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 344}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 3177
+  controlID: 10271
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -195,9 +195,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 415.77194, y: 236.4147, z: -593.64746}
+    m_Target: {x: 0.5342732, y: 1.7072881, z: -0.41349623}
     speed: 2
-    m_Value: {x: 415.77194, y: 236.4147, z: -593.64746}
+    m_Value: {x: 0.5342732, y: 1.7072881, z: -0.41349623}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -230,9 +230,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 553.88727
+    m_Target: 3.6009672
     speed: 2
-    m_Value: 553.88727
+    m_Value: 3.6009672
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 11806
+  m_LastSelectedObjectID: 11686
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_MinSize: {x: 234, y: 494}
   m_MaxSize: {x: 10004, y: 14044}
   vertical: 1
-  controlID: 3213
+  controlID: 10313
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -487,7 +487,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 78fbffff
+      m_ExpandedIDs: 78fbffffde2d00002e2e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -576,20 +576,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/TaskSystem
+    - Assets/Scripts/Storage
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/TaskSystem
+  - Assets/Scripts/Storage
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Dheeraj\Documents\UnityProjects\IsometricWorld
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 52}
-    m_SelectedIDs: 122f0000
-    m_LastClickedID: 12050
-    m_ExpandedIDs: 00000000082f00000a2f00000c2f00000e2f0000102f0000122f0000142f0000162f0000182f000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 3e2f0000
+    m_LastClickedID: 12094
+    m_ExpandedIDs: 00000000082f00000a2f00000c2f00000e2f0000102f0000122f0000142f0000162f0000382f00003a2f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -617,7 +617,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000082f00000a2f00000c2f00000e2f0000102f0000122f0000142f0000162f0000182f000000ca9a3b
+    m_ExpandedIDs: 00000000082f00000a2f00000c2f00000e2f0000102f0000122f0000142f0000162f0000382f00003a2f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -642,9 +642,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: be360000
-    m_LastClickedInstanceID: 14014
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: a62d0000
+    m_LastClickedInstanceID: 11686
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000443d0000ce2d000044380000142e0000d2360000942e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
