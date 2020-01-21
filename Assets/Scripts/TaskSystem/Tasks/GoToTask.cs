@@ -18,9 +18,10 @@ public class GoToTask : Task
     {
         if (!isValid)
         {
-            Debug.Log("requesting path to " + TaskLocation);
+            //Debug.Log("requesting path to " + TaskLocation);
             this.Entity.GetComponent<EntityMovement>().Move(TerrainManager.instance.RequestPath(Entity.transform.position, TaskLocation));
             this.Entity.GetComponent<EntityMovement>().DestinationReachedHandler += OnFinish;
+            this.Entity.GetComponent<EntityMovement>().DestinationNotReachableHandler += OnFailure;
             isValid = true;
         }
     }
@@ -31,5 +32,10 @@ public class GoToTask : Task
         base.OnFinish();
     }
 
+    protected override void OnFailure(string failureReason)
+    {
+        this.Entity.GetComponent<EntityMovement>().DestinationNotReachableHandler -= OnFailure;
+        base.OnFailure(failureReason);
+    }
 
 }

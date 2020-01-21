@@ -22,12 +22,14 @@ public abstract class Task
 
     public abstract void AssignTaskToEntity(GameObject entity);
     public abstract void Execute(ref uint workAmount);
-    protected virtual void OnFailure(string failureReason)
-    {
-        TaskFailed(failureReason);
-    }
+   
     protected virtual void OnFinish()
     {
         TaskCompleted();
+    }
+    protected virtual void OnFailure(string failureReason)
+    {
+        Debug.Log(TaskName + " failed : " + failureReason);
+        TaskFailed(failureReason);
     }
 }

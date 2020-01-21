@@ -1,33 +1,68 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HaulTask : ComplexTask
 {
-    StaticEntityType itemHauling;
-    Vector2Int from;
     IGrabFrom grabFrom;
     IDropOff dropOff;
     StaticEntityType resourceType;
     int itemAmount;
-    public HaulTask(string taskName, Vector2Int from, Vector2Int to, IGrabFrom grabFrom, IDropOff dropOff, StaticEntityType resourceType)
+
+    //WHEN FROM AND TO ARE KNOWN
+    public HaulTask(string taskName, IGrabFrom grabFrom, IDropOff dropOff, StaticEntityType resourceType)
         : 
-        base(taskName, to)
+        base(taskName, dropOff.GetLocation())
     {
-        Debug.Log("haul task from " + from + " to " + to);
-        this.from = from;
         this.dropOff = dropOff;
         this.grabFrom = grabFrom;
         this.resourceType = resourceType;
+    }
 
-        GoToTask grabTask = new GoToTask(taskName, from);
-        grabTask.TaskCompleted += ReachedSourceLocation;
-        taskPrqQueue.Enqueue(grabTask);
+    //WHEN FROM IS NOT KNOWN - USED FOR LOOKING FOR ITEMS IN STOCKPILE
+    public HaulTask(string taskName, IDropOff dropOff, StaticEntityType resourceType, int amount)
+        :
+        base(taskName, dropOff.GetLocation())
+    {
+        //this.TaskFailed += onFailure;
+        this.dropOff = dropOff;
+        this.resourceType = resourceType;
+        this.itemAmount = amount;
+        grabFrom = ResourceManager.instance.GetClosestResourceStorageWithItem(TerrainManager.instance.GetWorldPosGivenTileIndex(dropOff.GetLocation()), resourceType);
+        
+    }
 
+    public override void Execute(ref uint workAmount)
+    {
+        if (!isValid)
+        {
+            if (grabFrom != null)
+            {
+                GoToTask grabTask = new GoToTask(this.TaskName, grabFrom.GetLocation());
+                grabTask.TaskCompleted += ReachedSourceLocation;
+                taskPrqQueue.Enqueue(grabTask);
 
-        GoToTask dropTask = new GoToTask(taskName, to);
-        dropTask.TaskCompleted += ReachedDestinationLocation;
-        taskPrqQueue.Enqueue(dropTask);
+                GoToTask dropTask = new GoToTask(this.TaskName, dropOff.GetLocation());
+                dropTask.TaskCompleted += ReachedDestinationLocation;
+                taskPrqQueue.Enqueue(dropTask);
+
+                isValid = true;
+            }
+            else
+            {
+                OnFailure("Couldnt find resource: " + resourceType.ToString());
+            }
+        }
+        else
+        {
+            base.Execute(ref workAmount);
+        }
+    }
+
+    public override void AssignTaskToEntity(GameObject entity)
+    {
+        this.Entity = entity;
     }
 
     public void ReachedSourceLocation() {
@@ -35,7 +70,7 @@ public class HaulTask : ComplexTask
     }
 
     public void ReachedDestinationLocation() {
-        dropOff.DropOff(resourceType, this.Entity.GetComponent<EntityInventory>().RemoveInventoryItem(resourceType, 10));
+        dropOff.DropOff(resourceType, (uint)this.Entity.GetComponent<EntityInventory>().RemoveInventoryItem(resourceType, 10));
     }
 
 }

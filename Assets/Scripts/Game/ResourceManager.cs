@@ -41,9 +41,9 @@ public class ResourceManager : MonoBehaviour
             ResourceStorage storage = GetClosestResourceStorageWithItem(entitiesLyingInWorld[0].CellIndex, entitiesLyingInWorld[0].EntityType);
             if(storage != null)
             {
-                Debug.Log("closest storage area at " + storage.positionCellIndex);
-                ResourceEntity entity = entitiesLyingInWorld[0];
-                TaskManager.instance.AddTask( new HaulTask("Haul " + entity.EntityType, entity.CellIndex, storage.positionCellIndex, entity, storage, entity.EntityType));
+                //Debug.Log("closest storage area at " + storage.positionCellIndex);
+                ResourceEntity resourceEntity = entitiesLyingInWorld[0];
+                TaskManager.instance.AddTask( new HaulTask("Haul " + resourceEntity.EntityType, resourceEntity, storage, resourceEntity.EntityType));
                 entitiesLyingInWorld.RemoveAt(0);
             }
         }
@@ -51,7 +51,7 @@ public class ResourceManager : MonoBehaviour
 
     public void AddResourceStorage(ResourceStorage resourceStorage)
     {
-        Debug.Log("added new resource storage area");
+        //Debug.Log("added new resource storage area");
         resourceStorageList.Add(resourceStorage);
         if(resourceStorage.storedResourceType != StaticEntityType.Empty)
         {

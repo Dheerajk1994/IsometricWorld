@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PointerIcon
 {
-    private GameObject tile;
+    protected GameObject tile;
     protected Camera camera;
 
     protected PointerIcon(Sprite tileSprite, Camera camera)
@@ -15,7 +15,7 @@ public class PointerIcon
         this.camera = camera;
     }
 
-    protected void OnPointerMove()
+    protected virtual void OnPointerMove()
     {
         TerrainManager.instance.DisplayTileAtPosition(ref tile, camera.ScreenToWorldPoint(Input.mousePosition));
     }

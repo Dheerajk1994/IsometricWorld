@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b997e3dfaee0a064bab8652c175f51af, type: 3}
   m_Name: Road
   m_EditorClassIdentifier: 
-  buildingName: 
+  buildingName: Road
   buildingSprite: {fileID: 21300000, guid: 350cc3c3fde48ed4993ab50047f13668, type: 3}
   constructionObjectID: 6
   constructionMaterials: []

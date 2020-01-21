@@ -11,6 +11,11 @@ public class ResourceEntity : Entity, IGrabFrom
 
     public uint resourceAmount { get; protected set; }
 
+    public Vector2Int GetLocation()
+    {
+        return CellIndex;
+    }
+
     public int Grab(int amount)
     {
         TerrainManager.instance.RemoveEntityFromWorld(CellIndex);

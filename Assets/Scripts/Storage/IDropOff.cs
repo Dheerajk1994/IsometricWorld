@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IDropOff 
 {
-    void DropOff(StaticEntityType itemType, int amount);
+    void DropOff(StaticEntityType itemType, uint amount);
+    Vector2Int GetLocation();
 }

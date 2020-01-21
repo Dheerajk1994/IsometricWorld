@@ -9,12 +9,12 @@ public class GameStateCutWood : PointerIcon, IGameEventState
     {
     }
 
-    public void Enter()
+    public void StateEnter()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
-    public void Execute()
+    public void StateExecute()
     {
         base.OnPointerMove();
 
@@ -24,9 +24,9 @@ public class GameStateCutWood : PointerIcon, IGameEventState
         }
     }
 
-    public void Exit()
+    public void StateExit()
     {
-        throw new System.NotImplementedException();
+        base.OnExit();
     }
 
     protected override void OnLeftClick()

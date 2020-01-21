@@ -115,7 +115,7 @@ public class TerrainManager : MonoBehaviour
         //Debug.Log("requestpath to " + destinationPos);
         Vector2Int posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
         Vector2Int posEnd = terrainGenerator.GetTilePosAtPointer(destinationPos.x, destinationPos.y);
-        List<Vector2Int> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref posEnd);
+        List<Vector2Int> path = PathFinder.FindPath(tiles, worldWidth, worldHeight, posStart, posEnd);
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
@@ -124,7 +124,7 @@ public class TerrainManager : MonoBehaviour
         //Debug.Log("requestpath to cell " + endCellIndex);
         Vector2Int posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
 
-        List<Vector2Int> path = PathFinder.FindPath(ref tiles, ref worldWidth, ref worldHeight, ref posStart, ref endCellIndex);
+        List<Vector2Int> path = PathFinder.FindPath(tiles, worldWidth, worldHeight, posStart, endCellIndex);
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
@@ -157,7 +157,7 @@ public class TerrainManager : MonoBehaviour
 
     public void AddBuildingToWorld(ConstructionObject constructionObj, Vector2Int arrayIndexPos)
     {
-        Debug.Log("add building to world called");
+        //Debug.Log("add building to world called");
         worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = new Entity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
 
         GameObject entity = Instantiate(entityPrefab);

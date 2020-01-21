@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class EntityTaskExecuter : MonoBehaviour
     private Task currentTask;
     private bool hasTask;
     [SerializeField] private uint workAmount = 5;
+
+    //Delegate
+    public event Action<string> TaskChangeHandler = delegate { };
 
     public void Execute()
     {
@@ -35,6 +39,7 @@ public class EntityTaskExecuter : MonoBehaviour
             currentTask.TaskCompleted += FinishTask;
             currentTask.TaskFailed += TaskFailed;
             currentTask.AssignTaskToEntity(this.gameObject);
+            TaskChangeHandler(currentTask.TaskName);
             ExecuteTask();
         }
     }
@@ -47,12 +52,14 @@ public class EntityTaskExecuter : MonoBehaviour
     }
     public void FinishTask()
     {
+        Debug.Log("Task completed: " + currentTask.TaskName);
         hasTask = false;
         currentTask = null;
+        TaskChangeHandler("Idle");
     }
     public void TaskFailed(string reason)
     {
-        Debug.Log("Current task failed: " + reason);
+        Debug.Log("Task failed: " + currentTask.TaskName + " : " + reason);
         hasTask = false;
         currentTask = null;
     }

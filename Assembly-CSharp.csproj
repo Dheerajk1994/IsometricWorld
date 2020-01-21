@@ -87,9 +87,9 @@
      <Compile Include="Assets\Scripts\Storage\IDropOff.cs" />
      <Compile Include="Assets\Scripts\Storage\IGrabFrom.cs" />
      <Compile Include="Assets\Scripts\Storage\ResourceStorage.cs" />
+     <Compile Include="Assets\Scripts\Storage\VoidInventory.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\ComplexTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\EntityTaskExecuter.cs" />
-     <Compile Include="Assets\Scripts\TaskSystem\FetchMaterialTask.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\Task.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\TaskManager.cs" />
      <Compile Include="Assets\Scripts\TaskSystem\Tasks\BuildTask.cs" />
@@ -104,6 +104,7 @@
      <Compile Include="Assets\Scripts\Terrain\TerrainSpritesManager.cs" />
      <Compile Include="Assets\Scripts\Terrain\Tile.cs" />
      <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\UI\DwellerStatusShow.cs" />
      <Compile Include="Assets\Scripts\UI\TestBuildScript.cs" />
      <Compile Include="Assets\Scripts\UI\TestCutScript.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

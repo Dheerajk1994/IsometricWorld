@@ -18,4 +18,4 @@ MonoBehaviour:
   constructionMaterials: []
   constructionTimeCost: 500
   traversable: 1
-  traversalRate: 1
+  traversalRate: 5

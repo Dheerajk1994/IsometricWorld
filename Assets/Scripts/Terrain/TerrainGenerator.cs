@@ -101,18 +101,29 @@ public class TerrainGenerator
 
     public void PopulateTerrainWithEntities(in Tile[] tiles, ref Entity[] entities)
     {
+        int randomVal;
         for (int x = 0; x < worldWidth; ++x)
         {
             for (int y = 0; y < worldHeight; ++y)
             {
-                float entityVal = TerrainNoise.GetNoise(x, y, 50f);
-                if (entityVal < 0.3f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
+                //float entityVal = TerrainNoise.GetNoise(x, y, 50f);
+                //if (entityVal < 0.3f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
+                //{
+                //    entities[y * worldHeight + x] = new Entity("Tree", StaticEntityType.Tree_Pine, new Vector2Int(x, y), null);
+                //}
+                //else if(entityVal > 0.5f && entityVal < 0.52f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
+                //{
+                //    entities[y * worldHeight + x] = new Entity("Stone", StaticEntityType.Boulder_Stone, new Vector2Int(x, y), null);
+                //}
+                randomVal = UnityEngine.Random.Range(0, 1000);
+                if(randomVal > 900 && tiles[y * worldHeight + x].TerrainType == TerrainTypes.Plains)
                 {
-                    entities[y * worldHeight + x] = new Entity("Tree", StaticEntityType.Tree_Pine, new Vector2Int(x, y), null);
+                    entities[y * worldWidth + x] = new Entity("Tree", StaticEntityType.Tree_Pine, new Vector2Int(x, y), null);
                 }
-                else if(entityVal > 0.5f && entityVal < 0.52f && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water)
+                randomVal = UnityEngine.Random.Range(0, 1000);
+                if (randomVal > 950 && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water && entities[y * worldWidth + x] == null)
                 {
-                    entities[y * worldHeight + x] = new Entity("Stone", StaticEntityType.Boulder_Stone, new Vector2Int(x, y), null);
+                    entities[y * worldWidth + x] = new Entity("Stone", StaticEntityType.Boulder_Stone, new Vector2Int(x, y), null);
                 }
             }
         }

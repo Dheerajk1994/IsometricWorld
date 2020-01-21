@@ -5,36 +5,43 @@ using UnityEngine;
 
 public class BuildTask : ComplexTask
 {
-    public ConstructionObject constructionObject { get; private set; }
-    public List<ResourceAndAmount> materialsNeeded;
-    
-    public BuildTask(ConstructionObject constructionObject, string taskName, Vector2Int mainTaskLocation) : base(taskName, mainTaskLocation)
+    protected ConstructionObject constructionObject { get; private set; }
+    protected List<ResourceAndAmount> materialsNeeded;
+    protected VoidInventory constructionMaterialsBox;
+
+    public BuildTask(ConstructionObject constructionObject, string taskName, Vector2Int mainTaskLocation)
+        :
+        base(taskName, mainTaskLocation)
     {
-        Debug.Log("build task added");
         this.constructionObject = constructionObject;
-        materialsNeeded = new List<ResourceAndAmount>();
-        for(int i = 0; i < constructionObject.constructionMaterials.Length; ++i)
-        {
-            materialsNeeded.Add(constructionObject.constructionMaterials[i]);
-        }
-
-        //POPULATE PREREQ TASKS BASED ON MATERIALS NEEDED AT SITE
-        foreach (ResourceAndAmount materials in materialsNeeded)
-        {
-            taskPrqQueue.Enqueue(new FetchMaterialTask("FETCH.. ", materials, mainTaskLocation));
-        }
-
-        //ADD FINAL TASK - THE BUILDING ITSELF AFTER ALL PREREQ
-        taskPrqQueue.Enqueue(new GoToTask("Going to task location", TaskLocation));
-        taskPrqQueue.Enqueue(new TimedTask(constructionObject.constructionTimeCost, mainTaskLocation,"Build " + constructionObject.buildingName));
-
+        this.materialsNeeded = new List<ResourceAndAmount>();
+        constructionMaterialsBox = new VoidInventory(mainTaskLocation);
         
-        //Debug.Log("build task created");
     }
+
+    public override void Execute(ref uint workAmount)
+    {
+        if (!isValid)
+        {
+            foreach (ResourceAndAmount ra in constructionObject.constructionMaterials)
+            {
+                HaulTask haul = new HaulTask("Haul " + ra.resourceId.ToString(), constructionMaterialsBox, ra.resourceId, 10);
+                haul.TaskFailed += OnFailure;
+                taskPrqQueue.Enqueue(haul);
+            }
+            taskPrqQueue.Enqueue(new GoToTask(" ", this.TaskLocation));
+            taskPrqQueue.Enqueue(new TimedTask(constructionObject.constructionTimeCost, this.TaskLocation, "Build " + constructionObject.buildingName));
+            isValid = true;
+        }
+        else
+        {
+            base.Execute(ref workAmount);
+        }
+    }
+
 
     protected override void OnFinish()
     {
-        Debug.Log("finish called");
         TerrainManager.instance.AddBuildingToWorld(constructionObject, this.TaskLocation);
         base.OnFinish();
     }
@@ -45,3 +52,4 @@ public class BuildTask : ComplexTask
     }
 
 }
+

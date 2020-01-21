@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceStorage : IDropOff
+public class ResourceStorage : IDropOff, IGrabFrom
 {
     public StaticEntityType storedResourceType { get; protected set; }
     public uint inventorySize { get; protected set; }
@@ -43,8 +43,6 @@ public class ResourceStorage : IDropOff
     {
         return inventorySize - currentAmountInInventory;
     }
-
-    //ADDING ITEMS TO STORAGE RETURNS FALSE IF WAS NOT ABLE TO ADD ALL REQUESTED ITEMS
     public bool AddToStorage(StaticEntityType resourceType, ref uint addAmount)
     {
         if(storedResourceType == resourceType)
@@ -67,8 +65,6 @@ public class ResourceStorage : IDropOff
         }
         return false;
     }
-
-    //REQUESTING ITEMS FROM STORAGE - RETURNS UINT OF ITEMS THAT CAN BE GRABBED
     public uint GrabResource(StaticEntityType requestedResourceType, uint requestedAmount)
     {
         if(storedResourceType == requestedResourceType)
@@ -90,9 +86,19 @@ public class ResourceStorage : IDropOff
         }
         return 0;
     }
-
-    public void DropOff(StaticEntityType itemType, int amount)
+    public void DropOff(StaticEntityType itemType, uint amount)
     {
-        //AddToStorage(itemType, ref (uint)amount);
+        currentAmountInInventory += amount;
+    }
+
+    public Vector2Int GetLocation()
+    {
+        return positionCellIndex;
+    }
+
+    public int Grab(int amount)
+    {
+        //TODO call delegate and decrease amount
+        return amount;
     }
 }

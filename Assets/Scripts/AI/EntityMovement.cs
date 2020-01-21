@@ -20,6 +20,7 @@ public class EntityMovement : MonoBehaviour
 
     public event Action<MoveDirections> MoveDirectionChangHandler = delegate { };
     public event Action DestinationReachedHandler = delegate { };
+    public event Action<string> DestinationNotReachableHandler = delegate { };
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public class EntityMovement : MonoBehaviour
         else
         {
             isMoving = false;
-            DestinationReachedHandler();
+            DestinationNotReachableHandler("Tile not reachable");
         }
         
     }
@@ -67,6 +68,7 @@ public class EntityMovement : MonoBehaviour
                 else
                 {
                     isMoving = false;
+                    //Debug.Log("destination reached");
                     DestinationReachedHandler();
                 }
             }
@@ -123,15 +125,15 @@ public class EntityMovement : MonoBehaviour
         MoveDirectionChangHandler(moveDirection);
     }
 
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    if(path != null)
-    //    {
-    //        foreach (Vector2 loc in path)
-    //        {
-    //            Gizmos.DrawSphere(loc, 0.2f);
-    //        }
-    //    }
-    //}
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if(path != null)
+        {
+            foreach (Vector2 loc in path)
+            {
+                Gizmos.DrawSphere(loc, 0.2f);
+            }
+        }
+    }
 }

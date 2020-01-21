@@ -6,12 +6,12 @@ public class GameStateNormal : PointerIcon, IGameEventState
 {
     public GameStateNormal(Sprite tileHightLight, Camera mainCamera) : base(tileHightLight, mainCamera) { }
 
-    public void Enter()
+    public void StateEnter()
     {
         //Debug.Log("Entered normal game state");
     }
 
-    public void Execute()
+    public void StateExecute()
     {
         base.OnPointerMove();
 
@@ -36,7 +36,7 @@ public class GameStateNormal : PointerIcon, IGameEventState
         Debug.Log("right mouse clicked during normal game state");
     }
 
-    public void Exit()
+    public void StateExit()
     {
         base.OnExit();
     }

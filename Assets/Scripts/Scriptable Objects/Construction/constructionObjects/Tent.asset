@@ -16,7 +16,7 @@ MonoBehaviour:
   buildingSprite: {fileID: 21300000, guid: 547ed3db566b1be4b8e6857bc530b0d2, type: 3}
   constructionObjectID: 3
   constructionMaterials:
-  - resourceId: 2
+  - resourceId: 7
     resourceAmount: 10
   constructionTimeCost: 500
   traversable: 0

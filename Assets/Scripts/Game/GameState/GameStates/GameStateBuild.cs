@@ -14,14 +14,14 @@ public class GameStateBuild : PointerIcon, IGameEventState
     //DELEGATE FOR KNOWING WHEN THE PLAYER WANTS TO PLACE A BUILDING
     public event Action<bool> HasPlaced = delegate { }; 
 
-    public void Enter()
+    public void StateEnter()
     {
         //Debug.Log("Entered build state");
     }
 
-    public void Execute()
+    public void StateExecute()
     {
-        base.OnPointerMove();
+        OnPointerMove();
         //DO SOME PLACEMENT CHECK TO SEE IF YOU CAN PLACE THE OBJECT THERE
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -36,7 +36,7 @@ public class GameStateBuild : PointerIcon, IGameEventState
         Vector2Int buildCell = TerrainManager.instance.GetTilePosGivenWorldPos(mouseWorldPos);
         if (TerrainManager.instance.CanBeBuiltOn(buildCell))
         {
-            TaskManager.instance.AddTask(new BuildTask(constructionObject, "build tent", buildCell));
+            TaskManager.instance.AddTask(new BuildTask(constructionObject, "Build " + constructionObject.buildingName, buildCell));
         }
         //HasPlaced(true);
     }
@@ -46,7 +46,22 @@ public class GameStateBuild : PointerIcon, IGameEventState
         Debug.Log("right mouse clicked during build game state");
     }
 
-    public void Exit()
+    protected override void OnPointerMove()
+    {
+        base.OnPointerMove();
+        Vector2 mouseWorldPos = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2Int buildCell = TerrainManager.instance.GetTilePosGivenWorldPos(mouseWorldPos);
+        if (TerrainManager.instance.CanBeBuiltOn(buildCell))
+        {
+            tile.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else
+        {
+            tile.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
+    public void StateExit()
     {
         base.OnExit();
     }
