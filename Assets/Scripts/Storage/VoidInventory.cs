@@ -11,7 +11,7 @@ public class VoidInventory : IDropOff, IGrabFrom {
         this.location = location;
     }
 
-    public void DropOff(StaticEntityType itemType, uint amount)
+    public void DropOff(EntityType itemType, uint amount)
     {    }
 
     public Vector2Int GetLocation()

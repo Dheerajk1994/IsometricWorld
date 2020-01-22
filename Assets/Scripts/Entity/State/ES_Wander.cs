@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ES_Wander : IEntityState
+public class ES_Wander : EntityState
 {
     GameObject entity;
     EntityMovement entityMovement;
     private int maxWanderRange;
-    private Vector2 moveAroundArea;
+    private Vector2Int moveAroundArea;
 
     private readonly float timeToWaitUntilNextWanderRequest = 3f;
     private float currentWaitTime = 0f;
@@ -15,11 +15,12 @@ public class ES_Wander : IEntityState
     private bool isWandering = false;
 
     //CONSTRUCTOR
-    public ES_Wander(GameObject entity, int maxWanderRange, Vector2 moveAroundArea)
+    public ES_Wander(string stateName, GameObject entity, int maxWanderRange)
+        :
+        base(stateName)
     {
         this.entity = entity;
         this.maxWanderRange = maxWanderRange;
-        this.moveAroundArea = moveAroundArea;
 
         entityMovement = entity.GetComponent<EntityMovement>();
         entityMovement.DestinationReachedHandler += HasArrivedAtDestination;
@@ -27,20 +28,26 @@ public class ES_Wander : IEntityState
 
     //INTERFACE IMPLEMENTATION
 
-    public void Enter()
+    public override void Enter()
     {
         currentWaitTime = 0f;
         isWandering = false;
+        this.entity.GetComponent<EntityMovement>().moveSpeed = 1.0f;
     }
 
-    public void Execute()
+    public override void Execute()
     {
         if(!isWandering)
         {
-            if(currentWaitTime >= timeToWaitUntilNextWanderRequest)
+            if (currentWaitTime >= timeToWaitUntilNextWanderRequest)
             {
-                entityMovement.Move(TerrainManager.instance.RequestPath(entity.transform.position, GetRandomLocationAroundArea()));
                 isWandering = true;
+                moveAroundArea = TerrainManager.instance.GetTilePosGivenWorldPos(this.entity.transform.position);
+                GetRandomLocationAroundArea();
+                Debug.Log(moveAroundArea);
+                entityMovement.DestinationReachedHandler += HasArrivedAtDestination;
+                entityMovement.DestinationNotReachableHandler += CantGoToDestination;
+                entityMovement.Move(TerrainManager.instance.RequestPath(entity.transform.position, GetRandomLocationAroundArea()));
                 currentWaitTime = 0f;
             }
             else
@@ -50,25 +57,35 @@ public class ES_Wander : IEntityState
         }
     }
 
-    public void Stop()
+    public override void Stop()
     {
     }
 
-    public bool WillStop()
+    public override bool WillStop()
     {
         return true;
     }
 
     //HELPER FUNCTIONS
-    private Vector2 GetRandomLocationAroundArea()
+    private Vector2Int GetRandomLocationAroundArea()
     {
-        int x = UnityEngine.Random.Range(-maxWanderRange, maxWanderRange);
-        int y = UnityEngine.Random.Range(-maxWanderRange, maxWanderRange);
-        return (new Vector2(moveAroundArea.x + x, moveAroundArea.y + y));
+        int xr = UnityEngine.Random.Range(-maxWanderRange, maxWanderRange);
+        int yr = UnityEngine.Random.Range(-maxWanderRange, maxWanderRange);
+        return (new Vector2Int(moveAroundArea.x + xr, moveAroundArea.y + yr));
     }
 
     public void HasArrivedAtDestination()
     {
+        entityMovement.DestinationReachedHandler -= HasArrivedAtDestination;
+        entityMovement.DestinationNotReachableHandler -= CantGoToDestination;
         isWandering = false;
+    }
+
+    public void CantGoToDestination(string reason)
+    {
+        entityMovement.DestinationReachedHandler -= HasArrivedAtDestination;
+        entityMovement.DestinationNotReachableHandler -= CantGoToDestination;
+        isWandering = false;
+        currentWaitTime = timeToWaitUntilNextWanderRequest;
     }
 }

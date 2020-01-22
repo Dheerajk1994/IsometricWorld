@@ -57,7 +57,6 @@
      <Compile Include="Assets\Scripts\AI\Dweller.cs" />
      <Compile Include="Assets\Scripts\AI\EntityMovement.cs" />
      <Compile Include="Assets\Scripts\AI\PathFinder.cs" />
-     <Compile Include="Assets\Scripts\Entity\Entity.cs" />
      <Compile Include="Assets\Scripts\Entity\EntityEnums.cs" />
      <Compile Include="Assets\Scripts\Entity\Interactables\Entities\EntityRock.cs" />
      <Compile Include="Assets\Scripts\Entity\Interactables\Entities\EntityTree.cs" />
@@ -65,10 +64,13 @@
      <Compile Include="Assets\Scripts\Entity\Interactables\IGatherable.cs" />
      <Compile Include="Assets\Scripts\Entity\Interactables\IMineable.cs" />
      <Compile Include="Assets\Scripts\Entity\Interactables\ResourceEntity.cs" />
+     <Compile Include="Assets\Scripts\Entity\NonStaticEntity\DwellerEntity.cs" />
+     <Compile Include="Assets\Scripts\Entity\NonStaticEntity\NonStaticEntity.cs" />
      <Compile Include="Assets\Scripts\Entity\State\ES_Task.cs" />
      <Compile Include="Assets\Scripts\Entity\State\ES_Wander.cs" />
+     <Compile Include="Assets\Scripts\Entity\State\EntityState.cs" />
      <Compile Include="Assets\Scripts\Entity\State\EntityStateController.cs" />
-     <Compile Include="Assets\Scripts\Entity\State\IEntityState.cs" />
+     <Compile Include="Assets\Scripts\Entity\StaticEntity.cs" />
      <Compile Include="Assets\Scripts\Game\GameManager.cs" />
      <Compile Include="Assets\Scripts\Game\GameState\GameEventStateMachine.cs" />
      <Compile Include="Assets\Scripts\Game\GameState\GameStates\GameStateBuild.cs" />
@@ -104,7 +106,8 @@
      <Compile Include="Assets\Scripts\Terrain\TerrainSpritesManager.cs" />
      <Compile Include="Assets\Scripts\Terrain\Tile.cs" />
      <Compile Include="Assets\Scripts\UI\CameraControl.cs" />
-     <Compile Include="Assets\Scripts\UI\DwellerStatusShow.cs" />
+     <Compile Include="Assets\Scripts\UI\DwellerStateShow.cs" />
+     <Compile Include="Assets\Scripts\UI\DwellerTaskShow.cs" />
      <Compile Include="Assets\Scripts\UI\TestBuildScript.cs" />
      <Compile Include="Assets\Scripts\UI\TestCutScript.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />

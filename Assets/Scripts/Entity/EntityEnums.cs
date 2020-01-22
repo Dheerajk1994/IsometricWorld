@@ -9,7 +9,7 @@ public enum TerrainTypes
     Plains
 }
 
-public enum StaticEntityType
+public enum EntityType
 {
     Empty =  0,
     //world objects

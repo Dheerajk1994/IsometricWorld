@@ -41,7 +41,7 @@ public static class PathFinder
         int loopCount = 0;
 
         //while openlist is not empty
-        while(openList.Count > 0 && ++loopCount < 5000)
+        while(openList.Count > 0 && ++loopCount < 50000)
         {
             openList.Sort((a, b) => a.f.CompareTo(b.f));
             q = openList[0];

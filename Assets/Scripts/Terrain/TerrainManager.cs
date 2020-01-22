@@ -40,7 +40,7 @@ public class TerrainManager : MonoBehaviour
     public int WorldOriginY { get => worldOriginY;  }
 
     private Tile[] tiles;               //array of tiles ie the terrain tiles    
-    private Entity[] worldEntities;     //array of entity objects
+    private StaticEntity[] worldEntities;     //array of entity objects
     private GameObject[] worldObjects;  //array of entity game objects
 
 
@@ -72,7 +72,7 @@ public class TerrainManager : MonoBehaviour
             WorldOriginY);
 
         tiles = new Tile[worldWidth * worldHeight];
-        worldEntities = new Entity[worldWidth * worldHeight];
+        worldEntities = new StaticEntity[worldWidth * worldHeight];
         worldObjects = new GameObject[worldWidth * worldHeight];
 
         terrainSpritesManager = this.GetComponent<TerrainSpritesManager>();
@@ -115,7 +115,11 @@ public class TerrainManager : MonoBehaviour
         //Debug.Log("requestpath to " + destinationPos);
         Vector2Int posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
         Vector2Int posEnd = terrainGenerator.GetTilePosAtPointer(destinationPos.x, destinationPos.y);
-        List<Vector2Int> path = PathFinder.FindPath(tiles, worldWidth, worldHeight, posStart, posEnd);
+        List<Vector2Int> path = null;
+        if(CheckBounds(posStart) && CheckBounds(posEnd))
+        {
+            path = PathFinder.FindPath(tiles, worldWidth, worldHeight, posStart, posEnd);
+        }
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
     }
 
@@ -124,8 +128,20 @@ public class TerrainManager : MonoBehaviour
         //Debug.Log("requestpath to cell " + endCellIndex);
         Vector2Int posStart = terrainGenerator.GetTilePosAtPointer(currentPos.x, currentPos.y);
 
-        List<Vector2Int> path = PathFinder.FindPath(tiles, worldWidth, worldHeight, posStart, endCellIndex);
+        List<Vector2Int> path = null;
+        if (CheckBounds(endCellIndex))
+        {
+            path = PathFinder.FindPath(tiles, worldWidth, worldHeight, posStart, endCellIndex);
+        }
         return terrainGenerator.TurnCellIndexesIntoPositions(path);
+    }
+
+    private bool CheckBounds(Vector2Int cellIndex)
+    {
+        return (
+            cellIndex.x >= 0 && cellIndex.x < WorldWidth &&
+            cellIndex.y >= 0 && cellIndex.y < worldHeight
+            );
     }
 
     //HELPERS
@@ -138,15 +154,15 @@ public class TerrainManager : MonoBehaviour
             tiles[cellIndex.y * worldWidth + cellIndex.x].TerrainType != TerrainTypes.Water;
     }
 
-    public StaticEntityType GetEntityTypeOn(in Vector2Int cellIndex)
+    public EntityType GetEntityTypeOn(in Vector2Int cellIndex)
     {
         if(worldEntities[cellIndex.y * worldWidth + cellIndex.x] != null)
         {
-            return worldEntities[cellIndex.y * worldWidth + cellIndex.x].EntityType;
+            return worldEntities[cellIndex.y * worldWidth + cellIndex.x].StaticEntityType;
         }
         else
         {
-            return StaticEntityType.Empty;
+            return EntityType.Empty;
         }
     }
 
@@ -158,7 +174,7 @@ public class TerrainManager : MonoBehaviour
     public void AddBuildingToWorld(ConstructionObject constructionObj, Vector2Int arrayIndexPos)
     {
         //Debug.Log("add building to world called");
-        worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = new Entity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
+        worldEntities[arrayIndexPos.y * worldWidth + arrayIndexPos.x] = new StaticEntity(constructionObj.buildingName, constructionObj.constructionObjectID, arrayIndexPos, constructionObj.buildingSprite);
 
         GameObject entity = Instantiate(entityPrefab);
         entity.transform.SetParent(entityParent);
@@ -169,11 +185,11 @@ public class TerrainManager : MonoBehaviour
         tiles[arrayIndexPos.y * worldWidth + arrayIndexPos.x].TraversalDifficulty = constructionObj.traversalRate;
 
         //NEEDS REVISION
-        if(constructionObj.constructionObjectID == StaticEntityType.Road)
+        if(constructionObj.constructionObjectID == EntityType.Road)
         {
             terrainSpritesManager.UpdateRoadSprite(arrayIndexPos, worldWidth, worldHeight, ref entity, ref worldEntities, worldObjects);
         }
-        else if(constructionObj.constructionObjectID == StaticEntityType.StorageArea)
+        else if(constructionObj.constructionObjectID == EntityType.StorageArea)
         {
             ResourceManager.instance.AddResourceStorage(new ResourceStorage(arrayIndexPos));
             entity.GetComponent<SpriteRenderer>().sprite = constructionObj.buildingSprite;
@@ -193,11 +209,11 @@ public class TerrainManager : MonoBehaviour
         }
     }
 
-    public void AddEntityToWorld(Vector2Int pos, StaticEntityType type)
+    public void AddEntityToWorld(Vector2Int pos, EntityType type)
     {
         if(worldEntities[pos.y * WorldHeight + pos.x] == null)
         {
-            worldEntities[pos.y * WorldHeight + pos.x] = new Entity(type.ToString(), type, pos, null);
+            worldEntities[pos.y * WorldHeight + pos.x] = new StaticEntity(type.ToString(), type, pos, null);
             terrainGenerator.PlaceEntityInWorld(pos.x, pos.y, type, worldEntities, worldObjects, entityPrefab, entityParent);
         }
     }

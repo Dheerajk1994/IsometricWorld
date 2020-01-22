@@ -13,6 +13,7 @@ public class TerrainGenerator
     private int tileUnitWidthSize, tileUnityHeightSize;
     private int worldOriginX, worldOriginY;
 
+    private TerrainNoise terrainNoise;
     #endregion
 
     public TerrainGenerator(
@@ -33,6 +34,8 @@ public class TerrainGenerator
         this.tileUnityHeightSize = tileUnityHeightSize;
         this.worldOriginX = worldOriginX;
         this.worldOriginY = worldOriginY;
+
+        this.terrainNoise = new TerrainNoise(new Vector2Int(worldWidth, worldHeight));
     }
 
     public Vector2Int GetTilePosAtPointer(float worldPosX, float worldPosY)
@@ -81,13 +84,13 @@ public class TerrainGenerator
         {
             for (int x = 0; x < worldWidth; ++x)
             {
-                float terrainVal =TerrainNoise.GetNoise(x, y, 10f);
+                float terrainVal = terrainNoise.GetNoise(x, y, 10f);
                 //needs optimization 
-                if (terrainVal < 0f)
+                if (terrainVal <= 0.09)
                 {
                     tiles[worldHeight * y + x] = new Tile(TerrainTypes.Water, null, false, 0);
                 }
-                else if (terrainVal < 0.35f)
+                else if (terrainVal < 0.15f)
                 {
                     tiles[worldHeight * y + x] = new Tile(TerrainTypes.Sand, null, true, 5);
                 }
@@ -99,7 +102,7 @@ public class TerrainGenerator
         }
     }
 
-    public void PopulateTerrainWithEntities(in Tile[] tiles, ref Entity[] entities)
+    public void PopulateTerrainWithEntities(in Tile[] tiles, ref StaticEntity[] entities)
     {
         int randomVal;
         for (int x = 0; x < worldWidth; ++x)
@@ -118,18 +121,18 @@ public class TerrainGenerator
                 randomVal = UnityEngine.Random.Range(0, 1000);
                 if(randomVal > 900 && tiles[y * worldHeight + x].TerrainType == TerrainTypes.Plains)
                 {
-                    entities[y * worldWidth + x] = new Entity("Tree", StaticEntityType.Tree_Pine, new Vector2Int(x, y), null);
+                    entities[y * worldWidth + x] = new StaticEntity("Tree", EntityType.Tree_Pine, new Vector2Int(x, y), null);
                 }
                 randomVal = UnityEngine.Random.Range(0, 1000);
                 if (randomVal > 950 && tiles[y * worldHeight + x].TerrainType != TerrainTypes.Water && entities[y * worldWidth + x] == null)
                 {
-                    entities[y * worldWidth + x] = new Entity("Stone", StaticEntityType.Boulder_Stone, new Vector2Int(x, y), null);
+                    entities[y * worldWidth + x] = new StaticEntity("Stone", EntityType.Boulder_Stone, new Vector2Int(x, y), null);
                 }
             }
         }
     }
 
-    public void DrawWorld(in Tile[] tiles, in Entity[] entities, ref GameObject[] worldObjects, GameObject tilePrefab, GameObject entityPrefab, in Transform tilesParent, in Transform entityParent)
+    public void DrawWorld(in Tile[] tiles, in StaticEntity[] entities, ref GameObject[] worldObjects, GameObject tilePrefab, GameObject entityPrefab, in Transform tilesParent, in Transform entityParent)
     {
         for(int y = 0; y < worldHeight; ++y)
         {
@@ -147,7 +150,7 @@ public class TerrainGenerator
                 //ENTITY
                 if(entities[y * worldHeight + x] != null)
                 {
-                    PlaceEntityInWorld(x, y, entities[y * worldHeight + x].EntityType, entities, worldObjects, entityPrefab, entityParent);
+                    PlaceEntityInWorld(x, y, entities[y * worldHeight + x].StaticEntityType, entities, worldObjects, entityPrefab, entityParent);
                 }
             }
         }
@@ -158,7 +161,7 @@ public class TerrainGenerator
         tile.GetComponent<SpriteRenderer>().sprite = SpriteManager.instance.GetTerrainSprite(type);
     }
 
-    public void SetEntitySprite(StaticEntityType type, ref GameObject entity)
+    public void SetEntitySprite(EntityType type, ref GameObject entity)
     {
         entity.GetComponent<SpriteRenderer>().sprite = SpriteManager.instance.GetStaticEntitySprite(type);
 
@@ -175,11 +178,11 @@ public class TerrainGenerator
         PlaceTileInWorld(ref tile, pos.x, pos.y);   
     }
 
-    public void PlaceEntityInWorld(int x, int y, StaticEntityType type, in Entity[] entities, GameObject[] entityObjects, GameObject entityPrefab, Transform entityParent)
+    public void PlaceEntityInWorld(int x, int y, EntityType type, in StaticEntity[] entities, GameObject[] entityObjects, GameObject entityPrefab, Transform entityParent)
     {
         GameObject entity = UnityEngine.Object.Instantiate(entityPrefab);
         entity.transform.SetParent(entityParent);
-        SetEntitySprite(entities[y * worldHeight + x].EntityType, ref entity);
+        SetEntitySprite(entities[y * worldHeight + x].StaticEntityType, ref entity);
         PlaceTileInWorld(ref entity, x, y);
         entityObjects[y * worldHeight + x] = entity;
     }

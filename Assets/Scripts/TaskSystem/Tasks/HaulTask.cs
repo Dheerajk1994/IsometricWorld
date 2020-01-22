@@ -7,11 +7,11 @@ public class HaulTask : ComplexTask
 {
     IGrabFrom grabFrom;
     IDropOff dropOff;
-    StaticEntityType resourceType;
+    EntityType resourceType;
     int itemAmount;
 
     //WHEN FROM AND TO ARE KNOWN
-    public HaulTask(string taskName, IGrabFrom grabFrom, IDropOff dropOff, StaticEntityType resourceType)
+    public HaulTask(string taskName, IGrabFrom grabFrom, IDropOff dropOff, EntityType resourceType)
         : 
         base(taskName, dropOff.GetLocation())
     {
@@ -21,7 +21,7 @@ public class HaulTask : ComplexTask
     }
 
     //WHEN FROM IS NOT KNOWN - USED FOR LOOKING FOR ITEMS IN STOCKPILE
-    public HaulTask(string taskName, IDropOff dropOff, StaticEntityType resourceType, int amount)
+    public HaulTask(string taskName, IDropOff dropOff, EntityType resourceType, int amount)
         :
         base(taskName, dropOff.GetLocation())
     {

@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class EntityInventory : MonoBehaviour
 {
-    [SerializeField] public StaticEntityType ToolItemInInventory { get; protected set; }
-    [SerializeField] public StaticEntityType ItemInInventory { get; protected set; }
+    [SerializeField] public EntityType ToolItemInInventory { get; protected set; }
+    [SerializeField] public EntityType ItemInInventory { get; protected set; }
     [SerializeField] public int ItemAmountInInventory { get; protected set; }
 
-    public void SetTool(StaticEntityType tool)
+    public void SetTool(EntityType tool)
     {
         ToolItemInInventory = tool;
     }
 
-    public void AddInventoryItem(StaticEntityType itemType, int amount)
+    public void AddInventoryItem(EntityType itemType, int amount)
     {
-        if(ItemAmountInInventory == 0 || ItemInInventory == StaticEntityType.Empty)
+        if(ItemAmountInInventory == 0 || ItemInInventory == EntityType.Empty)
         {
             ItemInInventory = itemType;
             ItemAmountInInventory = amount;
         }
     }
 
-    public int RemoveInventoryItem(StaticEntityType itemType, int amount)
+    public int RemoveInventoryItem(EntityType itemType, int amount)
     {
         if (ItemInInventory == itemType)
         {

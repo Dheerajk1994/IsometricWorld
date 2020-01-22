@@ -5,29 +5,29 @@ using UnityEngine;
 
 public class ResourceStorage : IDropOff, IGrabFrom
 {
-    public StaticEntityType storedResourceType { get; protected set; }
+    public EntityType storedResourceType { get; protected set; }
     public uint inventorySize { get; protected set; }
     public uint currentAmountInInventory { get; protected set; }
     public Vector2Int positionCellIndex { get; protected set; }
 
     //DELEGATES
-    public event Action<StaticEntityType, uint> ResourceAddedHandler = delegate { }; 
-    public event Action<StaticEntityType, uint> ResourceRemovedHandler = delegate { }; 
+    public event Action<EntityType, uint> ResourceAddedHandler = delegate { }; 
+    public event Action<EntityType, uint> ResourceRemovedHandler = delegate { }; 
 
     public ResourceStorage(Vector2Int positionCellIndex)
     {
         this.positionCellIndex = positionCellIndex;
-        storedResourceType = StaticEntityType.Logs;
+        storedResourceType = EntityType.Logs;
     }
 
-    public ResourceStorage(StaticEntityType storedResource, uint inventorySize)
+    public ResourceStorage(EntityType storedResource, uint inventorySize)
     {
         this.storedResourceType = storedResource;
         this.inventorySize = inventorySize;
-        storedResourceType = StaticEntityType.Logs;
+        storedResourceType = EntityType.Logs;
     }
 
-    public bool ChangeStoredResourceType(StaticEntityType newResourceType)
+    public bool ChangeStoredResourceType(EntityType newResourceType)
     {
         if(currentAmountInInventory == 0)
         {
@@ -43,7 +43,7 @@ public class ResourceStorage : IDropOff, IGrabFrom
     {
         return inventorySize - currentAmountInInventory;
     }
-    public bool AddToStorage(StaticEntityType resourceType, ref uint addAmount)
+    public bool AddToStorage(EntityType resourceType, ref uint addAmount)
     {
         if(storedResourceType == resourceType)
         {
@@ -65,7 +65,7 @@ public class ResourceStorage : IDropOff, IGrabFrom
         }
         return false;
     }
-    public uint GrabResource(StaticEntityType requestedResourceType, uint requestedAmount)
+    public uint GrabResource(EntityType requestedResourceType, uint requestedAmount)
     {
         if(storedResourceType == requestedResourceType)
         {
@@ -86,7 +86,7 @@ public class ResourceStorage : IDropOff, IGrabFrom
         }
         return 0;
     }
-    public void DropOff(StaticEntityType itemType, uint amount)
+    public void DropOff(EntityType itemType, uint amount)
     {
         currentAmountInInventory += amount;
     }

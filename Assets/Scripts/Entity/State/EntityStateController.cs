@@ -1,17 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EntityTaskExecuter))]
 public class EntityStateController : MonoBehaviour
 {
-    IEntityState currentState;
+    EntityState currentState;
+
+    public event Action<string> StateChangeHandler;
 
     private void Start()
     {
         //TEST
-        //currentState = new ES_Wander(this.gameObject, 5, new Vector2(3, 3));
-        currentState = new ES_Task(this.GetComponent<EntityTaskExecuter>());
+        currentState = new ES_Wander("Wandering", this.gameObject, 10);
+        currentState.Enter();
+        StateChangeHandler(currentState.GetStateName());
+        //currentState = new ES_Task(this.GetComponent<EntityTaskExecuter>());
     }
 
     private void Update()
@@ -22,7 +27,7 @@ public class EntityStateController : MonoBehaviour
         }
     }
 
-    public void ChangeState(IEntityState newState)
+    public void ChangeState(EntityState newState)
     {
         if(currentState != null && currentState.WillStop())
         {

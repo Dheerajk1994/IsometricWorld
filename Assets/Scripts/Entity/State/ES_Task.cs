@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ES_Task : IEntityState
+public class ES_Task : EntityState
 {
     EntityTaskExecuter entityTaskExecuter;
 
-    public ES_Task(EntityTaskExecuter entityTaskExecuter)
+    public ES_Task(string stateName, EntityTaskExecuter entityTaskExecuter)
+        :
+        base(stateName)
     {
         this.entityTaskExecuter = entityTaskExecuter;
     }
 
-    public void Enter()
+
+    public override void Enter()
     {
         throw new System.NotImplementedException();
     }
 
-    public void Execute()
+    public override void Execute()
     {
         if(entityTaskExecuter != null)
         {
@@ -24,12 +27,7 @@ public class ES_Task : IEntityState
         }
     }
 
-    public void Stop()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool WillStop()
+    public override bool WillStop()
     {
         return true;
     }

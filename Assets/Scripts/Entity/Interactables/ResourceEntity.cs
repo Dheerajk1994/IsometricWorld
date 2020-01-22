@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceEntity : Entity, IGrabFrom
+public class ResourceEntity : StaticEntity, IGrabFrom
 {
-    public ResourceEntity(string entityName, StaticEntityType entityType, Vector2Int CellIndex, Sprite entitySprite) 
+    public ResourceEntity(string entityName, EntityType entityType, Vector2Int CellIndex, Sprite entitySprite) 
         :
         base(entityName, entityType, CellIndex, entitySprite)
     {}

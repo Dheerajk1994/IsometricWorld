@@ -10,7 +10,7 @@ public enum MoveDirections
 
 public class EntityMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 1.5f;
+    public float moveSpeed = 1.5f;
     private List<Vector2> path;
     private MoveDirections moveDirection;
 
@@ -33,6 +33,7 @@ public class EntityMovement : MonoBehaviour
 
     public void Move(List<Vector2> path) 
     {
+        //Debug.LogError(path.Count);
         this.path = path;
         currentPathIndex = 0;
         if(path != null && path.Count > 0)

@@ -8,7 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public struct ResourceAndAmount
 {
-    public StaticEntityType resourceId;
+    public EntityType resourceId;
     public uint resourceAmount;
 }
 
@@ -16,7 +16,7 @@ abstract public class ConstructionObject : ScriptableObject
 {
     public string buildingName;
     public Sprite buildingSprite;
-    public StaticEntityType constructionObjectID;
+    public EntityType constructionObjectID;
     public ResourceAndAmount[] constructionMaterials;
     public uint constructionTimeCost;
     public bool traversable;

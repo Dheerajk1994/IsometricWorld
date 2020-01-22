@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DwellerStatusShow : MonoBehaviour
+public class DwellerTaskShow : MonoBehaviour
 {
-    public TextMeshPro statusText;
+    public TextMeshPro taskText;
     void Start()
     {
-        statusText.GetComponent<MeshRenderer>().sortingOrder = 5;
+        taskText.GetComponent<MeshRenderer>().sortingOrder = 5;
         this.gameObject.GetComponent<EntityTaskExecuter>().TaskChangeHandler += UpdateTaskText;
     }
 
     public void UpdateTaskText(string task)
     {
-        statusText.GetComponent<TextMeshPro>().text = task;
+        taskText.GetComponent<TextMeshPro>().text = "Task: " + task;
     }
 }

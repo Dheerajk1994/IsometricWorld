@@ -50,27 +50,27 @@ public class SpriteManager : MonoBehaviour
         }
     }
 
-    public Sprite GetStaticEntitySprite(StaticEntityType type)
+    public Sprite GetStaticEntitySprite(EntityType type)
     {
         switch (type)
         {
-            case StaticEntityType.Empty:
+            case EntityType.Empty:
                 return null;
-            case StaticEntityType.Tree_Pine:
+            case EntityType.Tree_Pine:
                 return tree_pine[UnityEngine.Random.Range(0, tree_pine.Length)];
-            case StaticEntityType.Boulder_Stone:
+            case EntityType.Boulder_Stone:
                 return boulder_stone[UnityEngine.Random.Range(0, boulder_stone.Length)];
-            case StaticEntityType.Tent:
+            case EntityType.Tent:
                 return tent[UnityEngine.Random.Range(0, tent.Length)];
-            case StaticEntityType.House:
+            case EntityType.House:
                 return house[UnityEngine.Random.Range(0, house.Length)];
-            case StaticEntityType.StorageArea:
+            case EntityType.StorageArea:
                 return storageArea[UnityEngine.Random.Range(0, storageArea.Length)];
-            case StaticEntityType.Road:
+            case EntityType.Road:
                 return road[UnityEngine.Random.Range(0, road.Length)];
-            case StaticEntityType.Logs:
+            case EntityType.Logs:
                 return logs[UnityEngine.Random.Range(0, logs.Length)];
-            case StaticEntityType.Stone:
+            case EntityType.Stone:
                 return stone[UnityEngine.Random.Range(0, stone.Length)];
             default:
                 Debug.LogError("Unknown static entity type requested. Type " + type);
