@@ -25,8 +25,8 @@ public class ComplexTask : Task
             if (taskPrqQueue.Count > 0)
             {
                 currentTask = taskPrqQueue.Peek();
-                currentTask.TaskCompleted += PrereqCompleted;
-                currentTask.TaskFailed += PrereqFailed;
+                currentTask.TaskCompletedHandler += PrereqCompleted;
+                currentTask.TaskFailedHandler += PrereqFailed;
                 currentTask.AssignTaskToEntity(this.Entity);
             }
             else

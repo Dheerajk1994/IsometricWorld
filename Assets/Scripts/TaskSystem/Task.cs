@@ -11,8 +11,8 @@ public abstract class Task
     public GameObject Entity { get; protected set; }
     protected bool isValid = false;
 
-    public event Action TaskCompleted = delegate { };
-    public event Action<string> TaskFailed = delegate { };
+    public event Action TaskCompletedHandler = delegate { };
+    public event Action<string> TaskFailedHandler = delegate { };
 
     public Task(string TaskName, Vector2Int TaskLocation)
     {
@@ -25,11 +25,11 @@ public abstract class Task
    
     protected virtual void OnFinish()
     {
-        TaskCompleted();
+        TaskCompletedHandler();
     }
     protected virtual void OnFailure(string failureReason)
     {
         Debug.Log(TaskName + " failed : " + failureReason);
-        TaskFailed(failureReason);
+        TaskFailedHandler(failureReason);
     }
 }

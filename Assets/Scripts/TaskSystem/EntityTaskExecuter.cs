@@ -11,6 +11,7 @@ public class EntityTaskExecuter : MonoBehaviour
 
     //Delegate
     public event Action<string> TaskChangeHandler = delegate { };
+    public event Action TaskDoneHandler = delegate { };
 
     public void Execute()
     {
@@ -33,15 +34,28 @@ public class EntityTaskExecuter : MonoBehaviour
     public void RequestTask()
     {
         currentTask = TaskManager.instance.GetTask();
-        if (currentTask != null)
+        if(currentTask != null)
         {
-            hasTask = true;
-            currentTask.TaskCompleted += FinishTask;
-            currentTask.TaskFailed += TaskFailed;
+            currentTask.TaskCompletedHandler += TaskCompleted;
+            currentTask.TaskFailedHandler += TaskFailed;
             currentTask.AssignTaskToEntity(this.gameObject);
             TaskChangeHandler(currentTask.TaskName);
-            ExecuteTask();
+            hasTask = true;
         }
+        else
+        {
+            TaskManager.instance.AddWorkerToQueue(this.GetComponent<EntityStateController>());
+            TaskDoneHandler();
+        }
+    }
+    public void GiveTask(Task newTask)
+    {
+        currentTask = newTask;
+        currentTask.TaskCompletedHandler += TaskCompleted;
+        currentTask.TaskFailedHandler += TaskFailed;
+        currentTask.AssignTaskToEntity(this.gameObject);
+        TaskChangeHandler(currentTask.TaskName);
+        hasTask = true;
     }
     public void ExecuteTask()
     {
@@ -50,7 +64,7 @@ public class EntityTaskExecuter : MonoBehaviour
             currentTask.Execute(ref workAmount);
         }
     }
-    public void FinishTask()
+    public void TaskCompleted()
     {
         Debug.Log("Task completed: " + currentTask.TaskName);
         hasTask = false;

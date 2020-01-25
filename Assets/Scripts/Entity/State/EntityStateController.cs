@@ -13,10 +13,11 @@ public class EntityStateController : MonoBehaviour
     private void Start()
     {
         //TEST
-        currentState = new ES_Wander("Wandering", this.gameObject, 10);
+        //currentState = new ES_Wander("Wandering", this.gameObject, 10);
+        currentState = new ES_Task("Working", this.GetComponent<EntityTaskExecuter>());
+        currentState.StateDoneHandler += StateDone;
         currentState.Enter();
         StateChangeHandler(currentState.GetStateName());
-        //currentState = new ES_Task(this.GetComponent<EntityTaskExecuter>());
     }
 
     private void Update()
@@ -34,7 +35,18 @@ public class EntityStateController : MonoBehaviour
             currentState.Stop();
         }
         currentState = newState;
+        currentState.StateDoneHandler += StateDone;
         currentState.Enter();
     }
+    
+    public bool CanChangeState()
+    {
+        return currentState.WillStop();
+    }
 
+    public void StateDone()
+    {
+        Debug.Log("entity state controoler state done called");
+        ChangeState(new ES_Wander("Wandering", this.gameObject, 5));
+    }
 }

@@ -32,7 +32,7 @@ public class ES_Wander : EntityState
     {
         currentWaitTime = 0f;
         isWandering = false;
-        this.entity.GetComponent<EntityMovement>().moveSpeed = 1.0f;
+        this.entity.GetComponent<EntityMovement>().moveSpeed = 0.7f;
     }
 
     public override void Execute()

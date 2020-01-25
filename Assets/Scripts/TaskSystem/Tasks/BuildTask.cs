@@ -26,7 +26,7 @@ public class BuildTask : ComplexTask
             foreach (ResourceAndAmount ra in constructionObject.constructionMaterials)
             {
                 HaulTask haul = new HaulTask("Haul " + ra.resourceId.ToString(), constructionMaterialsBox, ra.resourceId, 10);
-                haul.TaskFailed += OnFailure;
+                haul.TaskFailedHandler += OnFailure;
                 taskPrqQueue.Enqueue(haul);
             }
             taskPrqQueue.Enqueue(new GoToTask(" ", this.TaskLocation));

@@ -40,11 +40,11 @@ public class HaulTask : ComplexTask
             if (grabFrom != null)
             {
                 GoToTask grabTask = new GoToTask(this.TaskName, grabFrom.GetLocation());
-                grabTask.TaskCompleted += ReachedSourceLocation;
+                grabTask.TaskCompletedHandler += ReachedSourceLocation;
                 taskPrqQueue.Enqueue(grabTask);
 
                 GoToTask dropTask = new GoToTask(this.TaskName, dropOff.GetLocation());
-                dropTask.TaskCompleted += ReachedDestinationLocation;
+                dropTask.TaskCompletedHandler += ReachedDestinationLocation;
                 taskPrqQueue.Enqueue(dropTask);
 
                 isValid = true;

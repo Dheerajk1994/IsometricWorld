@@ -11,12 +11,20 @@ public class ES_Task : EntityState
         base(stateName)
     {
         this.entityTaskExecuter = entityTaskExecuter;
+        this.entityTaskExecuter.TaskDoneHandler += OnStateDone;
     }
 
+    public ES_Task(string stateName, EntityTaskExecuter entityTaskExecuter, Task task)
+        :
+        base(stateName)
+    {
+        this.entityTaskExecuter = entityTaskExecuter;
+        this.entityTaskExecuter.GiveTask(task);
+    }
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
+        //this..GetComponent<EntityMovement>().moveSpeed = 1.5f;
     }
 
     public override void Execute()
